@@ -1,6 +1,8 @@
 from flask import Flask
 from .db import db
-from .routes.donor_routes import donor_bp
+from .routes.story_routes import story_bp
+from .routes.charity_routes import charity_bp
+from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)
@@ -12,7 +14,11 @@ def create_app():
 
     db.init_app(app)
 
-    # Register the donor routes
-    app.register_blueprint(donor_bp)
+    app.register_blueprint(charity_bp)
+    app.register_blueprint(story_bp)
+
+
+    with app.app_context():
+        db.create_all()
 
     return app
