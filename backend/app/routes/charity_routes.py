@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 from app.models.charity import Charity
+from app.models.donation import donation
 from sqlalchemy import func
 from app.db import db
 
@@ -11,7 +12,6 @@ charity_bp = Blueprint('charity', __name__)
 def apply_charity():
     data = request.get_json()
 
-
     charity = Charity(
         full_name=data['name'],
         email=data['email'],
@@ -21,7 +21,8 @@ def apply_charity():
         website_url=data.get('website_url'),
         image=data.get('image'),
     )
-    
+
+
     
 
 
@@ -36,7 +37,7 @@ def get_charity_donors(charity_id):
     
 
 
-    non_anonymous_donations = Donation.query.filter_by(charity_id=charity_id, is_anonymous=False).all()
+    non_anonymous_donations = donation.query.filter_by(charity_id=charity_id, is_anonymous=False).all()
     
 
     donors = list({donation.donor for donation in non_anonymous_donations})
@@ -53,7 +54,7 @@ def get_charity_donors(charity_id):
 @charity_bp.route('/charities/<int:charity_id>/total-donations', methods=['GET'])
 def total_donations(charity_id):
     total = db.session.query(
-        func.sum(Donation.amount)
+        func.sum(donation.amount)
     ).filter_by(charity_id=charity_id).scalar()
 
     return jsonify({
