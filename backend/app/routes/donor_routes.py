@@ -7,6 +7,19 @@ import logging
 donor_bp = Blueprint('donor', __name__)
 logger = logging.getLogger(__name__)
 
+        # View all charities available
+@donor_bp.route('/charities', methods=['GET'])
+def get_charities():
+    charities = Charity.query.all()
+    return jsonify([
+        {
+            'id': c.id,
+            'name': c.name,
+            'description': c.description,
+            'story': c.beneficiary_story
+        } for c in charities
+    ]), 200
+
 @donor_bp.route('/register', methods=['GET', 'POST'])
 def register_donor():
     if current_user.is_authenticated:
