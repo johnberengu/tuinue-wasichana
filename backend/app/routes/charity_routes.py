@@ -23,9 +23,6 @@ def apply_charity():
     )
 
 
-    
-
-
     db.session.add(charity)
     db.session.commit()
 
