@@ -1,8 +1,9 @@
 from datetime import datetime
 from ..db import db
 
+# Define the Donation table
 class Donation(db.Model):
-    __tablename__ = 'donations'
+    _tablename_ = 'donations'
 
     id = db.Column(db.Integer, primary_key=True)
     donor_id = db.Column(db.Integer, db.ForeignKey('donors.id'),nullable=False)
@@ -14,7 +15,7 @@ class Donation(db.Model):
     reminder_set = db.Column(db.Boolean, default=False)
 
     donor = db.relationship('Donor', backref='donations')
-    charity = db.relationship('Charity', backref='donations')
+    charity = db.relationship('Charity', back_populates='donations')
 
-    def __repr__(self):
+    def _repr_(self):
         return f'<Donation {self.amount} to {self.charity.name}>'
