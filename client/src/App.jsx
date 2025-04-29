@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Header from './components/Header';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from './components/Header';
 import Footer from './components/Footer';
 import PublicRoutes from './routes/PublicRoutes';
 import DonorRoutes from './routes/DonorRoutes';
@@ -15,17 +15,19 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
-      <main style={{ minHeight: '80vh', padding: '1rem' }}>
-        <Routes>
-          <Route path="/*" element={<PublicRoutes />} />
-          {user && user.role === 'donor' && <Route path="/donor/*" element={<DonorRoutes />} />}
-          {user && user.role === 'charity' && <Route path="/charity/*" element={<CharityRoutes />} />}
-          {user && user.role === 'admin' && <Route path="/admin/*" element={<AdminRoutes />} />}
-          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-        </Routes>
-      </main>
-      <Footer />
+      <div className="app-container">
+        <Navbar />
+        <main className="app-main">
+          <Routes>
+            <Route path="/*" element={<PublicRoutes />} />
+            {user && user.role === 'donor' && <Route path="/donor/*" element={<DonorRoutes />} />}
+            {user && user.role === 'charity' && <Route path="/charity/*" element={<CharityRoutes />} />}
+            {user && user.role === 'admin' && <Route path="/admin/*" element={<AdminRoutes />} />}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 };
