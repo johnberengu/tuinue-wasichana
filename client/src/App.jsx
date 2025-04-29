@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Header from './components/Header';
 import Footer from './components/Footer';
 import PublicRoutes from './routes/PublicRoutes';
 import DonorRoutes from './routes/DonorRoutes';
@@ -15,7 +15,7 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
+      <Header />
       <main style={{ minHeight: '80vh', padding: '1rem' }}>
         <Routes>
           <Route path="/*" element={<PublicRoutes />} />
