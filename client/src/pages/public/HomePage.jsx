@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 const HomePage = () => {
   const navigate = useNavigate();
 
+  console.log("This app is running!!")
+
   const handleLoginClick = () => {
     navigate('/login');
   };

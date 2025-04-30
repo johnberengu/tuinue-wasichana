@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./Header.jsx";
-import "./Footer.jsx";
-import "./DonationPage.css";
+// import "./Header.jsx";
+// import "./Footer.jsx";
+import "../../styles/DonationPage.css";
 
 const DonationPage = () => {
   const [amount, setAmount] = useState("");

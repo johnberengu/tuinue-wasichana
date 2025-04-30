@@ -10,7 +10,7 @@ const StoryManagement = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch(`/api/charities/${id}/stories`, {
+    fetch(`http://localhost:5000/api/charities/${id}/stories`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, content }),

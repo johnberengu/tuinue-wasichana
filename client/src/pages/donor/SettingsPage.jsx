@@ -1,6 +1,5 @@
-import React from 'react';
 import React, { useState } from 'react';
-import './Settings.css';
+// import './Settings.css';
 
 const SettingsPage = () => {
   return (
@@ -59,7 +58,7 @@ const data = new FormData();
       .then(res => res.json())
       .then(data => alert('Profile updated successfully!'))
       .catch(err => console.error('Update failed:', err));
-  };
+  
 
   return (
     <div className="settings-container">
@@ -108,6 +107,7 @@ const data = new FormData();
       </form>
     </div>
   );
+};
 
 
 export default Settings;

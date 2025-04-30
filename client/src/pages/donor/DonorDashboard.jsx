@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './DonorDashboard.css'; 
+// import './DonorDashboard.css'; 
 
 const DashboardPage = () => {
   return (

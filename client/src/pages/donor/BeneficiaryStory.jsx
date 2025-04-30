@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Charities from Charities
-import './BeneficiaryStories.css';
+// import './BeneficiaryStories.css';
 
 const CharityListWithStory = () => {
     const [charities, setCharities] = useState([])

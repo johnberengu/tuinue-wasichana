@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../components/Header"
+import Navbar from "../../components/Navbar"
 import Footer from "../../components/Footer"
 import "../../styles/CharityListingPage.css"
 import { useNavigate } from 'react-router-dom'
@@ -64,7 +64,7 @@ function CharityListingPage(){
 
     return (
         <div className="app">
-          <Header />
+          <Navbar />
           <div className="menu-grid">
             {charityItem.map(item => (
               <CharityCard key={item.id} item={item} />
