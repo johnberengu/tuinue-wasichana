@@ -1,5 +1,6 @@
 from app.db import db
 
+
 class Inventory(db.Model):
     _tablename_ = 'inventory'
 

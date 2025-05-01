@@ -1,5 +1,6 @@
 from app.db import db
 
+
 class Story(db.Model):
     __tablename__ = 'stories'
 

@@ -1,54 +1,77 @@
 from flask import Blueprint, request, jsonify
-from app.models.donation import Donation
-from app import db
+from app.models import Donation, Donor, Charity  # Adjust if path is different
+from app.db import db
 
+donation_bp = Blueprint('donation_bp', __name__)
 
-donation_bp = Blueprint('donation', __name__, url_prefix='/api/donations')
-
-
+# GET all donations
 @donation_bp.route('/', methods=['GET'])
 def get_donations():
     donations = Donation.query.all()
     return jsonify([donation.to_dict() for donation in donations]), 200
 
-
-@donation_bp.route('/<int:donation_id>', methods=['GET'])
-def get_donation(donation_id):
-    donation = Donation.query.get_or_404(donation_id)
+# GET a specific donation
+@donation_bp.route('/<int:id>', methods=['GET'])
+def get_donation(id):
+    donation = Donation.query.get(id)
+    if not donation:
+        return jsonify({'error': 'Donation not found'}), 404
     return jsonify(donation.to_dict()), 200
 
-
+# POST create a donation
 @donation_bp.route('/', methods=['POST'])
 def create_donation():
     data = request.get_json()
-    donation = Donation(
-        donor_id=data.get('donor_id'),
-        charity_id=data.get('charity_id'),
-        amount=data.get('amount'),
-        date=data.get('date'),
-        # Add other fields as needed
-    )
-    db.session.add(donation)
-    db.session.commit()
-    return jsonify(donation.to_dict()), 201
+    try:
+        donor = Donor.query.get(data['donor_id'])
+        charity = Charity.query.get(data['charity_id'])
 
+        if not donor or not charity:
+            return jsonify({'error': 'Invalid donor or charity ID'}), 400
 
-@donation_bp.route('/<int:donation_id>', methods=['PUT'])
-def update_donation(donation_id):
-    donation = Donation.query.get_or_404(donation_id)
+        donation = Donation(
+            donor_id=data['donor_id'],
+            charity_id=data['charity_id'],
+            amount=data['amount'],
+            anonymous=data.get('anonymous', False),
+            repeat_donation=data.get('repeat_donation', False),
+            reminder_set=data.get('reminder_set', False)
+        )
+
+        db.session.add(donation)
+        db.session.commit()
+        return jsonify(donation.to_dict()), 201
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+# PUT update donation
+@donation_bp.route('/<int:id>', methods=['PUT'])
+def update_donation(id):
+    donation = Donation.query.get(id)
+    if not donation:
+        return jsonify({'error': 'Donation not found'}), 404
+
     data = request.get_json()
-    donation.donor_id = data.get('donor_id', donation.donor_id)
-    donation.charity_id = data.get('charity_id', donation.charity_id)
     donation.amount = data.get('amount', donation.amount)
-    donation.date = data.get('date', donation.date)
-    # Update other fields as needed
+    donation.anonymous = data.get('anonymous', donation.anonymous)
+    donation.repeat_donation = data.get('repeat_donation', donation.repeat_donation)
+    donation.reminder_set = data.get('reminder_set', donation.reminder_set)
+
     db.session.commit()
     return jsonify(donation.to_dict()), 200
 
+# DELETE a donation
+@donation_bp.route('/<int:id>', methods=['DELETE'])
+def delete_donation(id):
+    donation = Donation.query.get(id)
+    if not donation:
+        return jsonify({'error': 'Donation not found'}), 404
 
-@donation_bp.route('/<int:donation_id>', methods=['DELETE'])
-def delete_donation(donation_id):
-    donation = Donation.query.get_or_404(donation_id)
     db.session.delete(donation)
     db.session.commit()
-    return jsonify({'message': 'Donation deleted'}), 200
+    return jsonify({'message': 'Donation deleted successfully'}), 200
+
+
+

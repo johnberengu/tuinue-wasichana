@@ -3,8 +3,11 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash
 from sqlalchemy import func
 from app.models import charity, donation, Story, User
-from app import db
-from app.db import db
+
+# from app import db
+# from app.db import db
+from ..db import db
+
 
 
 charity_bp = Blueprint('charity', __name__)
@@ -108,7 +111,7 @@ def total_donations(charity_id):
 #     approved=False
 # )
 
-    # db.session.add(new_charity)
-    # db.session.commit()
-    # return {"message": "Charity created!"}, 201
+#     db.session.add(new_charity)
+#     db.session.commit()
+#     return {"message": "Charity created!"}, 201
 

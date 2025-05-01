@@ -5,10 +5,10 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 class Charity(db.Model):
-    __tablename__ = 'charities'  
+    __tablename__ = 'charities'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Change 'users' to 'user'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     full_name = db.Column(db.String(150), nullable=False)
     contact = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String, nullable=False)
@@ -21,14 +21,17 @@ class Charity(db.Model):
     application_status = db.Column(db.String(20), default='pending')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    user = db.relationship('User', backref='charity', uselist=False)
-
-    donations = db.relationship('Donation', back_populates='charity', cascade="all, delete-orphan")
+    user = db.relationship('User', back_populates='charity', uselist=False)
+    donations = db.relationship('Donation', back_populates='charity', cascade='all, delete-orphan')
     stories = db.relationship('Story', back_populates='charity', cascade="all, delete-orphan")
     inventory = db.relationship('Inventory', back_populates='charity', cascade="all, delete-orphan")
+    # donors = db.relationship('Donor', secondary='donations', back_populates='charities_donated_to', overlaps="donations,donor")
+
+
 
     def __repr__(self):
-        return f'<Charity {self.full_name}>' 
+        return f'<Charity {self.full_name}>'
+
 
 
 charity_bp = Blueprint('charity', __name__)  

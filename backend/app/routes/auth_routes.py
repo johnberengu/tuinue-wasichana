@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user, login_required
-from app import db, bcrypt
-from app.models import User
-from app.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm
-from app.utils import send_reset_email
+from app.extensions import bcrypt, login_manager
+from app.db import db
+from app.models.auth_user import User
+# from app.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm
+# from app.utils import send_reset_email
 import logging
 
 auth_bp = Blueprint('auth', __name__)
 logger = logging.getLogger(__name__)
-
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -17,12 +17,9 @@ def register():
         return redirect(url_for('main.home'))
 
     form = RegistrationForm()
-
     if form.validate_on_submit():
         try:
-            hashed_password = bcrypt.generate_password_hash(
-                form.password.data
-            ).decode('utf-8')
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
             user = User(
                 username=form.username.data,
                 email=form.email.data,
@@ -37,10 +34,7 @@ def register():
         except Exception as e:
             db.session.rollback()
             logger.error(f"Error during registration: {e}")
-            flash(
-                'An error occurred while creating your account. Please try again.',
-                'danger',
-            )
+            flash('An error occurred while creating your account. Please try again.', 'danger')
 
     return render_template('register.html', title='Register', form=form)
 
@@ -52,33 +46,7 @@ def login():
         return redirect(url_for('main.home'))
 
     form = LoginForm()
-
     if form.validate_on_submit():
-        # Direct admin login bypassing registration
-        if form.email.data.lower() == 'admin@example.com':
-            admin_password = 'adminpassword'  # Set your admin password here
-            if form.password.data == admin_password:
-                user = User.query.filter_by(email=form.email.data).first()
-                if not user:
-                    # Create admin user if not exists
-                    user = User(
-                        username='admin',
-                        email='admin@example.com',
-                        password=bcrypt.generate_password_hash(admin_password).decode('utf-8'),
-                        is_admin=True,
-                    )
-                    db.session.add(user)
-                    db.session.commit()
-                login_user(user, remember=form.remember.data)
-                logger.info(f"Admin user logged in: {user.email}")
-                next_page = request.args.get('next')
-                return redirect(next_page) if next_page else redirect(url_for('main.home'))
-            else:
-                flash('Invalid admin password.', 'danger')
-                logger.warning(f"Failed admin login attempt for email: {form.email.data}")
-                return render_template('login.html', title='Login', form=form)
-
-        # Charity and donor login
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
@@ -108,7 +76,6 @@ def reset_request():
         return redirect(url_for('main.home'))
 
     form = RequestResetForm()
-
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
@@ -134,12 +101,9 @@ def reset_token(token):
         return redirect(url_for('auth.reset_request'))
 
     form = ResetPasswordForm()
-
     if form.validate_on_submit():
         try:
-            hashed_password = bcrypt.generate_password_hash(
-                form.password.data
-            ).decode('utf-8')
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
             user.password = hashed_password
             db.session.commit()
             flash('Your password has been updated! You can now log in.', 'success')
@@ -148,9 +112,6 @@ def reset_token(token):
         except Exception as e:
             db.session.rollback()
             logger.error(f"Error updating password: {e}")
-            flash(
-                'An error occurred while updating your password. Please try again.',
-                'danger',
-            )
+            flash('An error occurred while updating your password. Please try again.', 'danger')
 
     return render_template('reset_token.html', title='Reset Password', form=form)

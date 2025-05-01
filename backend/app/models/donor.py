@@ -13,8 +13,12 @@ class Donor(db.Model):
     repeat_donation = db.Column(db.Boolean, default=False)  # Repeat donations
     donation_interval = db.Column(db.String(20), nullable=True)  # Frequency of donation: weekly, monthly, etc.
     reminder_set = db.Column(db.Boolean, default=False)  # Reminder for donation
-    charities_donated_to = db.relationship('Charity', secondary='donations', backref='donors')
+    # charities_donated_to = db.relationship('Charity', secondary='donations', back_populates='donors', overlaps="donations,charity")
 
+    # charities_donated_to = db.relationship('Charity', secondary='donations', back_populates='donors', overlaps="donations,charity")
+    donations = db.relationship('Donation', back_populates='donor', cascade='all, delete-orphan')
+    # charity = db.relationship('Charity', back_populates='donors')
+    
     def __repr__(self):
         return f'<Donor {self.full_name}, {self.email}>'
 
