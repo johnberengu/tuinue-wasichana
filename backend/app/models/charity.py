@@ -12,7 +12,7 @@ class Charity(db.Model):
     full_name = db.Column(db.String(150), nullable=False)
     contact = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String, nullable=False)
-    password = db.Column(db.String(150))
+    #password = db.Column(db.String(150))
     description = db.Column(db.Text)
     website_url = db.Column(db.String, nullable=True)
     image = db.Column(db.String)
@@ -25,12 +25,24 @@ class Charity(db.Model):
     donations = db.relationship('Donation', back_populates='charity', cascade='all, delete-orphan')
     stories = db.relationship('Story', back_populates='charity', cascade="all, delete-orphan")
     inventory = db.relationship('Inventory', back_populates='charity', cascade="all, delete-orphan")
-    # donors = db.relationship('Donor', secondary='donations', back_populates='charities_donated_to', overlaps="donations,donor")
+    donors = db.relationship('Donor', secondary='donations', back_populates='charities_donated_to', overlaps="donations,donor")
 
 
 
     def __repr__(self):
         return f'<Charity {self.full_name}>'
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'full_name': self.full_name,
+            'description': self.description,
+            'email': self.email,
+            'website_url': self.website_url,
+            'total_donations': sum(d.amount for d in self.donations)
+        }
+
+
 
 
 
@@ -39,7 +51,7 @@ charity_bp = Blueprint('charity', __name__)
 
 
 @charity_bp.route('/apply', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def apply_charity():
     from app.models import User 
     user_id = get_jwt_identity()
@@ -89,7 +101,7 @@ def get_charity(charity_id):
 
 
 @charity_bp.route('/stories', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def create_story():
     from app.models import User, Story 
     user_id = get_jwt_identity()
@@ -115,7 +127,7 @@ def create_story():
 
 
 @charity_bp.route('/beneficiaries', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def add_beneficiary():
     from app.models import User, Beneficiary  # ✅ import inside the route
     user_id = get_jwt_identity()

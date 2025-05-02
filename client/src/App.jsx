@@ -15,17 +15,19 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
-      <main style={{ minHeight: '80vh', padding: '1rem' }}>
-        <Routes>
-          <Route path="/*" element={<PublicRoutes />} />
-          {user && user.role === 'donor' && <Route path="/donor/*" element={<DonorRoutes />} />}
-          {user && user.role === 'charity' && <Route path="/charity/*" element={<CharityRoutes />} />}
-          {user && user.role === 'admin' && <Route path="/admin/*" element={<AdminRoutes />} />}
-          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-        </Routes>
-      </main>
-      <Footer />
+      <div className="app-container">
+        <Navbar />
+        <main className="app-main">
+          <Routes>
+            <Route path="/*" element={<PublicRoutes />} />
+            {user && user.role === 'donor' && <Route path="/donor/*" element={<DonorRoutes />} />}
+            {user && user.role === 'charity' && <Route path="/charity/*" element={<CharityRoutes />} />}
+            {user && user.role === 'admin' && <Route path="/admin/*" element={<AdminRoutes />} />}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 };

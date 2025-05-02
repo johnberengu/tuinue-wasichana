@@ -1,17 +1,19 @@
 from flask import Blueprint, request, jsonify
-from app.models import Donation, Donor, Charity  # Adjust if path is different
-from app.db import db
+from app.models import Donation, Donor, Charity
+from app import db
 
 donation_bp = Blueprint('donation_bp', __name__)
 
-# GET all donations
+donation_bp = Blueprint('donation', __name__)
+
+
 @donation_bp.route('/', methods=['GET'])
 def get_donations():
     donations = Donation.query.all()
     return jsonify([donation.to_dict() for donation in donations]), 200
 
-# GET a specific donation
-@donation_bp.route('/<int:id>', methods=['GET'])
+
+@donation_bp.route('/<int:donation_id>', methods=['GET'])
 def get_donation(id):
     donation = Donation.query.get(id)
     if not donation:
@@ -44,9 +46,8 @@ def create_donation():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
 
-# PUT update donation
+
 @donation_bp.route('/<int:id>', methods=['PUT'])
 def update_donation(id):
     donation = Donation.query.get(id)
@@ -62,6 +63,7 @@ def update_donation(id):
     db.session.commit()
     return jsonify(donation.to_dict()), 200
 
+
 # DELETE a donation
 @donation_bp.route('/<int:id>', methods=['DELETE'])
 def delete_donation(id):
@@ -72,6 +74,3 @@ def delete_donation(id):
     db.session.delete(donation)
     db.session.commit()
     return jsonify({'message': 'Donation deleted successfully'}), 200
-
-
-

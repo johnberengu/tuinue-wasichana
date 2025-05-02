@@ -1,5 +1,5 @@
 from datetime import datetime
-from ..db import db
+from app import db
 
 class Donation(db.Model):
     __tablename__ = 'donations'
@@ -30,7 +30,6 @@ class Donation(db.Model):
     def __repr__(self):
         charity_name = self.charity.full_name if self.charity else 'Unknown Charity'
         return f'<Donation {self.amount} to {charity_name}>'
-
 
 
 

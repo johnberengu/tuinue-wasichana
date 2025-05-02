@@ -1,11 +1,24 @@
 from flask import Blueprint, request, jsonify, flash, redirect, url_for, render_template
 from flask_login import login_required, current_user
 from app import db
-from app.models import Donor, Donation
+from app.models import Donor, Donation, Charity
 import logging
 
 donor_bp = Blueprint('donor', __name__)
 logger = logging.getLogger(__name__)
+
+        # View all charities available
+@donor_bp.route('/charities', methods=['GET'])
+def get_charities():
+    charities = Charity.query.all()
+    return jsonify([
+        {
+            'id': c.id,
+            'name': c.name,
+            'description': c.description,
+            'story': c.beneficiary_story
+        } for c in charities
+    ]), 200
 
 @donor_bp.route('/register', methods=['GET', 'POST'])
 def register_donor():
@@ -47,3 +60,22 @@ def donate():
     db.session.commit()
     logger.info(f"Donation made by {'anonymous' if anonymous else current_user.email}: {amount}")
     return jsonify({'message': 'Donation successful'}), 201
+
+@donor_bp.route('/donors/<int:donor_id>/donations', methods=['GET'])
+def get_donor_donations(donor_id):
+    donor = Donor.query.get(donor_id)
+    if not donor:
+        return jsonify({'error': 'Donor not found'}), 404
+
+    donations = [
+        {
+            'amount': d.amount,
+            'date': d.date.isoformat(),
+            'charity': d.charity.full_name
+        }
+        for d in donor.donations
+    ]
+    return jsonify({
+        'donor': donor.full_name,
+        'donations': donations
+    })
