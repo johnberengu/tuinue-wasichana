@@ -17,6 +17,8 @@ def apply_charity():
         return jsonify({'error': 'Only charities can apply'}), 403
     data = request.get_json()
     charity = Charity.query.filter_by(user_id=user_id).first()
+    if not charity:
+        return jsonify({'error': 'Charity profile not found'}), 404
     if charity.application_status != 'pending':
         return jsonify({'error': 'Application already submitted or processed'}), 400
     charity.name = data.get('name', charity.name)
@@ -120,6 +122,28 @@ def total_donations(charity_id):
         "total_donated": total or 0.0
     }), 200
 
+@charity_bp.route('/charities/<int:charity_id>/donations', methods=['GET'])
+def get_charity_donations(charity_id):
+    charity = Charity.query.get(charity_id)
+    if not charity:
+        return jsonify({'error': 'Charity not found'}), 404
+
+    total = sum(d.amount for d in charity.donations)
+
+    donations = [
+        {
+            'amount': d.amount,
+            'date': d.date.isoformat(),
+            'donor': d.donor.full_name
+        }
+        for d in charity.donations
+    ]
+
+    return jsonify({
+        'charity': charity.full_name,
+        'total_donations': total,
+        'donations': donations
+    })
 
 # @charity_bp.route('/test-charity', methods=['GET'])
 # def test_charity():

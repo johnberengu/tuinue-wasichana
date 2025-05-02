@@ -60,3 +60,22 @@ def donate():
     db.session.commit()
     logger.info(f"Donation made by {'anonymous' if anonymous else current_user.email}: {amount}")
     return jsonify({'message': 'Donation successful'}), 201
+
+@donor_bp.route('/donors/<int:donor_id>/donations', methods=['GET'])
+def get_donor_donations(donor_id):
+    donor = Donor.query.get(donor_id)
+    if not donor:
+        return jsonify({'error': 'Donor not found'}), 404
+
+    donations = [
+        {
+            'amount': d.amount,
+            'date': d.date.isoformat(),
+            'charity': d.charity.full_name
+        }
+        for d in donor.donations
+    ]
+    return jsonify({
+        'donor': donor.full_name,
+        'donations': donations
+    })
