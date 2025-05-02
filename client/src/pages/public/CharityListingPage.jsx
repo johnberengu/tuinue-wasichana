@@ -1,6 +1,4 @@
-import React from "react";
-import Navbar from "../../components/Navbar"
-import Footer from "../../components/Footer"
+import React, { useState, useEffect } from "react";
 import "../../styles/CharityListingPage.css"
 import { useNavigate } from 'react-router-dom'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -43,7 +41,7 @@ function CharityListingPage(){
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      fetch("/api/charity/")
+      fetch("http://127.0.0.1:5000")
         .then((res) => res.json())
         .then((data) => {
           const transformed = data.map(row => ({
@@ -64,13 +62,11 @@ function CharityListingPage(){
 
     return (
         <div className="app">
-          <Navbar />
           <div className="menu-grid">
             {charityItem.map(item => (
               <CharityCard key={item.id} item={item} />
             ))}
           </div>
-          <Footer />
         </div>
       );
 }

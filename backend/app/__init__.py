@@ -21,6 +21,9 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')
 
+    # app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+    # app.config["JWT_SECRET_KEY"] = "tuinue-secret-key"
+
     db.init_app(app)
     migrate.init_app(app, db)
     CORS(app)

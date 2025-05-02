@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, flash, redirect, url_for, render_template
 from flask_login import login_required, current_user
 from app import db
-from app.models import Donor, Donation
+from app.models import Donor, Donation, Charity
 import logging
 
 donor_bp = Blueprint('donor', __name__)
