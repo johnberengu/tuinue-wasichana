@@ -1,100 +1,71 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchDonations } from "../api"; // Adjust path based on your project structure
 
-const CharityDashboard = () => {
+export default function CharityDashboard() {
   const [donations, setDonations] = useState([]);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/donations")
-      .then((response) => {
-        setDonations(response.data);
-        const sum = response.data.reduce((acc, item) => acc + item.amount, 0);
-        setTotal(sum);
-      })
-      .catch((error) => console.error("Error fetching donations:", error));
+    fetchDonations().then(setDonations);
   }, []);
 
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header Section */}
-      <header className="bg-blue-800 text-white p-6 flex justify-between items-center shadow-lg">
-        <h1 className="text-2xl font-bold">Charity Dashboard</h1>
-        <button className="bg-blue-600 px-4 py-2 rounded text-white hover:bg-blue-700 transition">Logout</button>
-      </header>
+  const totalDonations = donations.reduce((sum, d) => sum + d.amount, 0);
+  const anonymousDonations = donations
+    .filter(d => d.donor_name === "Anonymous")
+    .reduce((sum, d) => sum + d.amount, 0);
 
-      {/* Main Content Area */}
-      <div className="flex flex-1">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white shadow-md p-6 space-y-4">
-          <h2 className="text-xl font-semibold text-gray-800">Navigation</h2>
-          {["Donations", "Donors", "Inventory", "Stories", "Beneficiaries"].map((item) => (
-            <button
-              key={item}
-              className="w-full bg-purple-800 text-white py-2 rounded hover:bg-purple-900 transition"
+  return (
+    <div className="flex min-h-screen bg-blue-50">
+      {/* Sidebar */}
+      <aside className="w-64 bg-blue-100 shadow-md p-4">
+        <h2 className="text-2xl font-bold mb-6">Tuinue Wasichana</h2>
+        <nav className="space-y-4 mt-20">
+          {["Dashboard", "Donors", "Beneficiaries", "Inventory", "Stories"].map((item, i) => (
+            <a
+              key={i}
+              href="#"
+              className="block w-44 bg-purple-800 text-white font-medium px-4 py-2 text-center rounded-xl hover:bg-purple-700 mx-auto"
             >
               {item}
-            </button>
+            </a>
           ))}
-        </aside>
+        </nav>
+      </aside>
 
-        {/* Main Dashboard Content */}
-        <main className="flex-1 p-6">
-          <h2 className="text-2xl font-semibold mb-8">Donations Overview</h2>
+      {/* Main Content */}
+      <main className="flex-1 p-6">
+        <header className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">Charity Dashboard</h1>
+        </header>
 
-          {/* Donation Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <h3 className="text-lg font-semibold text-gray-700">Total Donors</h3>
-              <p className="text-3xl font-bold text-blue-600">{donations.length}</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <h3 className="text-lg font-semibold text-gray-700">Total Donations</h3>
-              <p className="text-3xl font-bold text-green-600">KES {total.toLocaleString()}</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <h3 className="text-lg font-semibold text-gray-700">Beneficiaries Helped</h3>
-              <p className="text-3xl font-bold text-yellow-600">150</p>
-            </div>
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white p-4 rounded-2xl shadow">
+            <h3 className="text-gray-600">Total Donations</h3>
+            <p className="text-2xl font-bold text-blue-600">KSh {totalDonations.toLocaleString()}</p>
           </div>
-
-          {/* Donation List Table */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Recent Donations</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <h4 className="font-semibold text-gray-600 mb-2">Donor Name</h4>
-                {donations.map((d) => (
-                  <p key={d.id} className="py-1 text-gray-700">{d.donor_name}</p>
-                ))}
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-600 mb-2">Amount</h4>
-                {donations.map((d) => (
-                  <p key={d.id} className="py-1 text-gray-700">KES {d.amount.toLocaleString()}</p>
-                ))}
-              </div>
-            </div>
+          <div className="bg-white p-4 rounded-2xl shadow">
+            <h3 className="text-gray-600">Donations</h3>
+            <p className="text-2xl font-bold text-blue-600">KSh {(totalDonations - anonymousDonations).toLocaleString()}</p>
           </div>
-
-          {/* Total Donations Section */}
-          <div className="mt-8 text-center">
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">Total Donations</h3>
-            <p className="text-3xl font-bold text-green-600">KES {total.toLocaleString()}</p>
+          <div className="bg-white p-4 rounded-2xl shadow">
+            <h3 className="text-gray-600">Anonymous Donations</h3>
+            <p className="text-2xl font-bold text-blue-600">KSh {anonymousDonations.toLocaleString()}</p>
           </div>
-        </main>
-      </div>
+        </section>
 
-      {/* Footer (Optional) */}
-      {/* <footer className="bg-blue-800 p-4 text-white text-center mt-6">
-        <div>📧 tuinuewasichana@mail.co.ke</div>
-        <div>📞 +254712345678</div>
-        <div>📘 Tuinue Wasichana | 🐦 Tuinue Wasichana</div>
-      </footer> */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white p-4 rounded-2xl shadow">
+            <h2 className="text-xl font-semibold mb-4">Donors</h2>
+            <ul className="space-y-2">
+              {donations.map((donation) => (
+                <li key={donation.id} className="flex justify-between text-gray-700">
+                  <span>{donation.donor_name}</span>
+                  <span>KSh {donation.amount.toLocaleString()}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </main>
     </div>
   );
-};
-
-export default CharityDashboard;
+}

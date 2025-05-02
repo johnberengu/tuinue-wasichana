@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CharityDashboard from '../pages/charity/CharityDashboard';
 import BeneficiaryManagement from '../pages/charity/BeneficiaryManagement';
