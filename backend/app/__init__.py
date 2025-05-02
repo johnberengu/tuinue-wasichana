@@ -30,8 +30,9 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     CORS(app)
+
     bcrypt.init_app(app)
-    login_manager.init_app(app)
+    # login_manager.init_app(app)
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/auth')

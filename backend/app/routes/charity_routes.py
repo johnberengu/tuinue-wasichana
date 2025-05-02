@@ -145,23 +145,3 @@ def get_charity_donations(charity_id):
         'donations': donations
     })
 
-# @charity_bp.route('/test-charity', methods=['GET'])
-# def test_charity():
-#     from app.models.charity import Charity
-#     from app.db import db
-
-#     new_charity = Charity(
-#     full_name="Clicked Charity",
-#     email="click@test.com",
-#     description="Created by clicking",
-#     contact="0700000000",  # provide all required fields
-#     password="hashedpassword",  # this is required based on the schema
-#     user_id=1,  # assuming this links to a user
-#     application_status="pending",  # or whatever default makes sense
-#     approved=False
-# )
-
-#     db.session.add(new_charity)
-#     db.session.commit()
-#     return {"message": "Charity created!"}, 201
-
