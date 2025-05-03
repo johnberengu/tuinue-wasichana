@@ -12,3 +12,5 @@ class Story(db.Model):
 
     charity_id = db.Column(db.Integer, db.ForeignKey('charities.id'))
     charity = db.relationship('Charity', back_populates='stories')
+
+    

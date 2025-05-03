@@ -7,8 +7,8 @@ import logging
 donor_bp = Blueprint('donor', __name__)
 logger = logging.getLogger(__name__)
 
-        # View all charities available
-@donor_bp.route('/charities', methods=['GET'])
+
+@donor_bp.route('<int:donor_id>/charities', methods=['GET'])
 def get_charities():
     charities = Charity.query.all()
     return jsonify([
@@ -61,7 +61,7 @@ def donate():
     logger.info(f"Donation made by {'anonymous' if anonymous else current_user.email}: {amount}")
     return jsonify({'message': 'Donation successful'}), 201
 
-@donor_bp.route('/donors/<int:donor_id>/donations', methods=['GET'])
+@donor_bp.route('/<int:donor_id>/donations', methods=['GET'])
 def get_donor_donations(donor_id):
     donor = Donor.query.get(donor_id)
     if not donor:

@@ -8,6 +8,7 @@ load_dotenv()
 
 app = create_app()
 
+# Charity + User seed data
 charity_data = [
     {
         "username": "padspromise",
@@ -107,20 +108,20 @@ with app.app_context():
     db.create_all()
 
     print("🌱 Seeding users and charities...")
+
     for item in charity_data:
-        # Create User
         hashed_pw = bcrypt.generate_password_hash(item["password"]).decode('utf-8')
+
         user = User(
             username=item["username"],
             email=item["email"],
             password=hashed_pw,
-            role="charity",
+            role="charity",  # Make sure your User model has this field
             is_admin=False
         )
         db.session.add(user)
-        db.session.flush()  # Assigns user.id before commit
+        db.session.flush()  # get user.id
 
-        # Create Charity linked to User
         charity = Charity(
             user_id=user.id,
             full_name=item["full_name"],

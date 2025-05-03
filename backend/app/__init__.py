@@ -14,6 +14,7 @@ from .routes.story_routes import story_bp
 from .routes.charity_routes import charity_bp
 from .routes.donation_routes import donation_bp
 from .routes.auth_routes import auth_bp
+from .routes.donor_routes import donor_bp
 from .routes.inventory_routes import inventory_bp
 
 from .models import Donor, Donation, User, Charity, Story, Inventory
@@ -36,10 +37,17 @@ def create_app():
     CORS(app)
 
     bcrypt.init_app(app)
-    # login_manager.init_app(app)
+    
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(donor_bp, url_prefix='/donors')
     app.register_blueprint(donation_bp, url_prefix='/donations')
     app.register_blueprint(charity_bp, url_prefix='/charities')
     app.register_blueprint(story_bp, url_prefix='/stories')
