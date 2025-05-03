@@ -1,71 +1,78 @@
 import React, { useEffect, useState } from "react";
-// import { fetchDonations } from "http://localhost:5000/donations/charity/"; // Adjust path based on your project structure
+import "../../styles/CharityDashboard.css"; 
 
 export default function CharityDashboard() {
   const [donations, setDonations] = useState([]);
 
   useEffect(() => {
-    fetchDonations().then(setDonations);
+    const fetchDonations = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/donations");
+        if (!response.ok) throw new Error("Failed to fetch donations");
+        const data = await response.json();
+        setDonations(data);
+      } catch (error) {
+        console.error("Error fetching donations:", error);
+      }
+    };
+    fetchDonations();
   }, []);
 
   const totalDonations = donations.reduce((sum, d) => sum + d.amount, 0);
   const anonymousDonations = donations
-    .filter(d => d.donor_name === "Anonymous")
+    .filter((d) => d.donor_name === "Anonymous")
     .reduce((sum, d) => sum + d.amount, 0);
 
   return (
-    <div className="flex min-h-screen bg-blue-50">
+    <div className="dashboard-container">
       {/* Sidebar */}
-      <aside className="w-64 bg-blue-100 shadow-md p-4">
-        <h2 className="text-2xl font-bold mb-6">Tuinue Wasichana</h2>
-        <nav className="space-y-4 mt-20">
-          {["Dashboard", "Donors", "Beneficiaries", "Inventory", "Stories"].map((item, i) => (
-            <a
-              key={i}
-              href="#"
-              className="block w-44 bg-purple-800 text-white font-medium px-4 py-2 text-center rounded-xl hover:bg-purple-700 mx-auto"
-            >
-              {item}
-            </a>
-          ))}
+      <aside className="sidebar">
+        <h2 className="sidebar-title">Tuinue Wasichana</h2>
+        <nav className="sidebar-nav">
+          <a href="/">Dashboard</a>
+          <a href="beneficiaries">Beneficiaries</a>
+          <a href="inventory">Inventory</a>
+          <a href="stories">Stories</a>
         </nav>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
-        <header className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Charity Dashboard</h1>
-        </header>
+  {/* Main Content */}
+  <main className="main-content">
+    <header className="dashboard-header">
+      <h1>Charity Dashboard</h1>
+    </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-4 rounded-2xl shadow">
-            <h3 className="text-gray-600">Total Donations</h3>
-            <p className="text-2xl font-bold text-blue-600">KSh {/*totalDonations.toLocaleString()*/}</p>
-          </div>
-          <div className="bg-white p-4 rounded-2xl shadow">
-            <h3 className="text-gray-600">Donations</h3>
-            <p className="text-2xl font-bold text-blue-600">KSh {/*(totalDonations - anonymousDonations).toLocaleString()*/}</p>
-          </div>
-          <div className="bg-white p-4 rounded-2xl shadow">
-            <h3 className="text-gray-600">Anonymous Donations</h3>
-            <p className="text-2xl font-bold text-blue-600">KSh {/*anonymousDonations.toLocaleString()*/}</p>
-          </div>
-        </section>
-{/* 
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white p-4 rounded-2xl shadow">
-            <h2 className="text-xl font-semibold mb-4">Donors</h2>
-            <ul className="space-y-2">
-              {donations.map((donation) => (
-                <li key={donation.id} className="flex justify-between text-gray-700">
-                  <span>{donation.donor_name}</span>
-                  <span>KSh {donation.amount.toLocaleString()}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section> */}
-      </main>
-    </div>
+    <section className="summary-cards">
+
+      <div className="card">
+        <h3>Donations</h3>
+        <p className="amount">KSh {(totalDonations - anonymousDonations).toLocaleString()}</p>
+      </div>
+      <div className="card">
+        <h3>Anonymous Donations</h3>
+        <p className="amount">KSh {anonymousDonations.toLocaleString()}</p>
+      </div>
+      <div className="card">
+        <h3>Total Donations</h3>
+        <p className="amount">KSh {totalDonations.toLocaleString()}</p>
+      </div>
+    </section>
+
+    <section className="donors-list">
+      <div className="card">
+        <h2>Donors</h2>
+        <ul>
+          {donations.map((donation) => (
+            <li key={donation.id} className="donor-item">
+              <span>{donation.donor_name}</span>
+              <span>KSh {donation.amount.toLocaleString()}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section> 
+  </main>
+</div>
   );
 }
+

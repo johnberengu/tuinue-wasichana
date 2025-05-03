@@ -29,7 +29,7 @@ const CharityRegistration = () => {
 
   const checkUsername = async (username) => {
     try {
-      const response = await api.get(`http://localhost:5000/auth/users/${username}`);
+      const response = await api.get(`http://localhost:5000/auth/check-username/${username}`);
       setUsernameAvailable(response.data.available);
       return response.data.available;
     } catch {

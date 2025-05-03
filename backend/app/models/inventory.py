@@ -1,7 +1,8 @@
 from app.db import db
 
+
 class Inventory(db.Model):
-    _tablename_ = 'inventory'
+    __tablename__ = 'inventory'
 
     id = db.Column(db.Integer, primary_key = True)
     item_name = db.Column(db.String(100), nullable = False) 

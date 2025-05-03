@@ -15,7 +15,7 @@ class Charity(db.Model):
     #password = db.Column(db.String(150))
     description = db.Column(db.Text)
     website_url = db.Column(db.String, nullable=True)
-    image = db.Column(db.String)
+    image = db.Column(db.String, nullable=True)
     approved = db.Column(db.Boolean, default=False)
     beneficiary_story = db.Column(db.String(500), nullable=True)
     application_status = db.Column(db.String(20), default='pending')

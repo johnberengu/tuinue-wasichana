@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models.inventory import Inventory
 from app.db import db
 
-inventory_bp = Blueprint('inventory_routes', _name_)
+inventory_bp = Blueprint('inventory_routes', __name__)
 
 @inventory_bp.route('/charities/<int:charity_id>/inventory', methods=['GET'])
 def get_inventory(charity_id):
@@ -18,6 +18,7 @@ def get_inventory(charity_id):
 def add_inventory_item(charity_id):
     data = request.get_json()
     new_item = Inventory(
+        charity_id=charity_id,
         item_name=data['item_name'],
         quantity=data['quantity'],
         beneficiary_name=data.get('beneficiary_name')
