@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../styles/InventoryPage.css";
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "http://localhost:5000"; 
 
 const InventoryPage = ({ charityId }) => {
   const [inventory, setInventory] = useState([]);
@@ -13,8 +13,10 @@ const InventoryPage = ({ charityId }) => {
   });
 
   useEffect(() => {
-    fetchInventory();
-  }, []);
+    if (charityId) {
+      fetchInventory();
+    }
+  }, [charityId]);
 
   const fetchInventory = async () => {
     try {
@@ -28,7 +30,10 @@ const InventoryPage = ({ charityId }) => {
   const handleAddItem = async () => {
     if (!newItem.item_name || !newItem.quantity) return;
     try {
-      await axios.post(`/charities/${charityId}/inventory`, newItem);
+      await axios.post(`/charities/${charityId}/inventory`, {
+        ...newItem,
+        quantity: parseInt(newItem.quantity),
+      });
       fetchInventory();
       setNewItem({ item_name: "", quantity: "", beneficiary_name: "" });
     } catch (error) {
@@ -106,8 +111,6 @@ const InventoryPage = ({ charityId }) => {
           <button className="action-button" onClick={handleAddItem}>
             Add Item
           </button>
-          <button className="action-button">Delete Item</button>
-          <button className="action-button">Set Reminder</button>
         </div>
       </div>
     </div>
