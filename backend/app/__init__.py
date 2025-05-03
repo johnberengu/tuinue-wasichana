@@ -14,6 +14,7 @@ from .routes.story_routes import story_bp
 from .routes.charity_routes import charity_bp
 from .routes.donation_routes import donation_bp
 from .routes.auth_routes import auth_bp
+from .routes.inventory_routes import inventory_bp
 
 from .models import Donor, Donation, User, Charity, Story, Inventory
 
@@ -42,6 +43,8 @@ def create_app():
     app.register_blueprint(donation_bp, url_prefix='/donations')
     app.register_blueprint(charity_bp, url_prefix='/charities')
     app.register_blueprint(story_bp, url_prefix='/stories')
+    app.register_blueprint(inventory_bp, url_prefix='/stories')
+
 
     @app.route('/')
     def index():

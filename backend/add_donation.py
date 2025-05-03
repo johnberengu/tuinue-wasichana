@@ -9,8 +9,8 @@ with app.app_context():
 
     if donor and charity:
         donation = Donation(
-            donor_id=donor.id,
-            charity_id=charity.id,
+            donor_id=6,
+            charity_id=2,
             amount=50.0,
             anonymous=False,
             repeat_donation=True
