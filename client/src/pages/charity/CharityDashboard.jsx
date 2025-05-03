@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchDonations } from "../api"; // Adjust path based on your project structure
+// import { fetchDonations } from "http://localhost:5000/donations/charity/"; // Adjust path based on your project structure
 
 export default function CharityDashboard() {
   const [donations, setDonations] = useState([]);
@@ -40,18 +40,18 @@ export default function CharityDashboard() {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white p-4 rounded-2xl shadow">
             <h3 className="text-gray-600">Total Donations</h3>
-            <p className="text-2xl font-bold text-blue-600">KSh {totalDonations.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-blue-600">KSh {/*totalDonations.toLocaleString()*/}</p>
           </div>
           <div className="bg-white p-4 rounded-2xl shadow">
             <h3 className="text-gray-600">Donations</h3>
-            <p className="text-2xl font-bold text-blue-600">KSh {(totalDonations - anonymousDonations).toLocaleString()}</p>
+            <p className="text-2xl font-bold text-blue-600">KSh {/*(totalDonations - anonymousDonations).toLocaleString()*/}</p>
           </div>
           <div className="bg-white p-4 rounded-2xl shadow">
             <h3 className="text-gray-600">Anonymous Donations</h3>
-            <p className="text-2xl font-bold text-blue-600">KSh {anonymousDonations.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-blue-600">KSh {/*anonymousDonations.toLocaleString()*/}</p>
           </div>
         </section>
-
+{/* 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-4 rounded-2xl shadow">
             <h2 className="text-xl font-semibold mb-4">Donors</h2>
@@ -64,7 +64,7 @@ export default function CharityDashboard() {
               ))}
             </ul>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   );
