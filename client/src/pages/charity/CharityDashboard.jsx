@@ -69,7 +69,7 @@ export default function CharityDashboard() {
               ))}
             </ul>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   );
