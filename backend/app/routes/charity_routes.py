@@ -36,7 +36,8 @@ def get_all_charities():
             "full_name": charity.full_name,
             "email": charity.email,
             "website_url": charity.website_url,
-            "description": charity.description
+            "description": charity.description,
+            "image": charity.image
         }
         for charity in charities
     ]
@@ -53,7 +54,8 @@ def get_charity_by_id(id):
         "full_name": charity.full_name,
         "email": charity.email,
         "website_url": charity.website_url,
-        "description": charity.description
+        "description": charity.description,
+        "image": charity.image
     }
     return jsonify(result), 200
 
@@ -96,22 +98,27 @@ def post_story():
     db.session.commit()
     return jsonify({'message': 'Story posted successfully'}), 201
 
-@charity_bp.route('/stories', methods=['GET'])
-def get_stories():
-    stories = Story.query.all()
+@charity_bp.route('/<int:charity_id>/stories', methods=['GET'])
+def get_stories(charity_id):
+    stories = Story.query.filter_by(charity_id=charity_id).all()
+
+    if not stories:
+        return jsonify([]), 200  # Optional: include message → jsonify({"message": "No stories found"})
+
     stories_list = []
     for story in stories:
-        charity = Charity.query.get(story.charity_id)
         stories_list.append({
             'id': story.id,
             'title': story.title,
             'content': story.content,
-            'charity_name': charity.name,
+            'charity_name': story.charity.full_name,  # if you set up a relationship
             'date': story.created_at.isoformat()
         })
+
     return jsonify(stories_list), 200
 
-@charity_bp.route('/charities/<int:charity_id>/total-donations', methods=['GET'])
+
+@charity_bp.route('/<int:charity_id>/total-donations', methods=['GET'])
 def total_donations(charity_id):
     total = db.session.query(
         func.sum(Donation.amount)
@@ -122,7 +129,7 @@ def total_donations(charity_id):
         "total_donated": total or 0.0
     }), 200
 
-@charity_bp.route('/charities/<int:charity_id>/donations', methods=['GET'])
+@charity_bp.route('/<int:charity_id>/donations', methods=['GET'])
 def get_charity_donations(charity_id):
     charity = Charity.query.get(charity_id)
     if not charity:
