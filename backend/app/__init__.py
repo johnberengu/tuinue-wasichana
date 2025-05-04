@@ -1,12 +1,13 @@
 import os
-
+from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
 from .db import db
-from flask_cors import CORS
-from flask_migrate import Migrate
 from .extensions import bcrypt, login_manager
+
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+
 
 from .routes.story_routes import story_bp
 from .routes.charity_routes import charity_bp
@@ -27,6 +28,11 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')
 
+    print("Using DB URI:", app.config['SQLALCHEMY_DATABASE_URI'])
+
+
+    app.config['ENV']   = 'development'
+    app.config['DEBUG'] = True
     # app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     # app.config["JWT_SECRET_KEY"] = "tuinue-secret-key"
 
@@ -51,6 +57,11 @@ def create_app():
     app.register_blueprint(story_bp, url_prefix='/stories')
     # app.register_blueprint(inventory_bp, url_prefix='/charities')
     app.register_blueprint(inventory_bp)
+
+
+    @app.route('/test', methods=['GET'])
+    def test_route():
+        return 'Test Route is working!'
 
 
     @app.route('/')
