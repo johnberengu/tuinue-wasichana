@@ -86,6 +86,20 @@ const LoginForm = () => {
           Login
         </button>
       </form>
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={() => navigate('/register')}
+          className="bg-green-600 text-white rounded px-4 py-2 hover:bg-green-700"
+        >
+          Register
+        </button>
+        <button
+          onClick={() => navigate('/reset-password')}
+          className="bg-yellow-600 text-white rounded px-4 py-2 hover:bg-yellow-700"
+        >
+          Forget Password
+        </button>
+      </div>
       {message && <p className="mt-4 text-red-600">{message}</p>}
     </section>
   );

@@ -17,7 +17,10 @@ class Donor(db.Model):
 
     charities_donated_to = db.relationship('Charity', secondary='donations', back_populates='donors', overlaps="donations,charity")
     donations = db.relationship('Donation', back_populates='donor', cascade='all, delete-orphan')
-    user=db.relationship('Donor', back_populates='donor', cascade='all, delete-orphan')
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    user = db.relationship('User', backref='donors')
+
     # charity = db.relationship('Charity', back_populates='donors')
     
     def __repr__(self):
