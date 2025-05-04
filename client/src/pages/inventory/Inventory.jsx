@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../styles/InventoryPage.css";
 
-axios.defaults.baseURL = "http://localhost:5000"; 
+axios.defaults.baseURL = "http://localhost:5000/inventory"; 
 
 const InventoryPage = ({ charityId }) => {
   const [inventory, setInventory] = useState([]);

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../services/api';
 
 const DonorRegistration = () => {
   const { userType } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +29,7 @@ const DonorRegistration = () => {
 
   const checkUsername = async (username) => {
     try {
-      const response = await api.get(`/auth/check-username/${username}`);
+      const response = await api.get(`http://localhost:5000/auth/check-username/${username}`);
       setUsernameAvailable(response.data.available);
       return response.data.available;
     } catch {
@@ -49,9 +50,10 @@ const DonorRegistration = () => {
       return;
     }
     try {
-      await api.post('/donors/register', formData);
+      await api.post('http://localhost:5000/auth/register_donor', formData);
       setMessage('Registration successful!');
       setFormData({name: '', email: '', username: '', password: '', phone: '', userType: userType || 'individual'});
+      setTimeout(() => navigate('/login'));
     } catch {
       setMessage('Registration failed. Please try again.');
     }

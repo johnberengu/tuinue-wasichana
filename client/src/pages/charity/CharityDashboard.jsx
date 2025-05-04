@@ -29,48 +29,50 @@ export default function CharityDashboard() {
       <aside className="sidebar">
         <h2 className="sidebar-title">Tuinue Wasichana</h2>
         <nav className="sidebar-nav">
-          {["Dashboard", "Donors", "Beneficiaries", "Inventory", "Stories"].map((item, i) => (
-            <a key={i} href="#" className="nav-button">{item}</a>
-          ))}
+          <a href="/">Dashboard</a>
+          <a href="beneficiaries">Beneficiaries</a>
+          <a href="inventory">Inventory</a>
+          <a href="stories">Stories</a>
         </nav>
       </aside>
 
-      {/* Main Content */}
-      <main className="main-content">
-        <header className="dashboard-header">
-          <h1>Charity Dashboard</h1>
-        </header>
+  {/* Main Content */}
+  <main className="main-content">
+    <header className="dashboard-header">
+      <h1>Charity Dashboard</h1>
+    </header>
 
-        <section className="summary-cards">
+    <section className="summary-cards">
 
-          <div className="card">
-            <h3>Donations</h3>
-            <p className="amount">KSh {(totalDonations - anonymousDonations).toLocaleString()}</p>
-          </div>
-          <div className="card">
-            <h3>Anonymous Donations</h3>
-            <p className="amount">KSh {anonymousDonations.toLocaleString()}</p>
-          </div>
-          <div className="card">
-            <h3>Total Donations</h3>
-            <p className="amount">KSh {totalDonations.toLocaleString()}</p>
-          </div>
-        </section>
+      <div className="card">
+        <h3>Donations</h3>
+        <p className="amount">KSh {(totalDonations - anonymousDonations).toLocaleString()}</p>
+      </div>
+      <div className="card">
+        <h3>Anonymous Donations</h3>
+        <p className="amount">KSh {anonymousDonations.toLocaleString()}</p>
+      </div>
+      <div className="card">
+        <h3>Total Donations</h3>
+        <p className="amount">KSh {totalDonations.toLocaleString()}</p>
+      </div>
+    </section>
 
-        <section className="donors-list">
-          <div className="card">
-            <h2>Donors</h2>
-            <ul>
-              {donations.map((donation) => (
-                <li key={donation.id} className="donor-item">
-                  <span>{donation.donor_name}</span>
-                  <span>KSh {donation.amount.toLocaleString()}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section> 
-      </main>
-    </div>
+    <section className="donors-list">
+      <div className="card">
+        <h2>Donors</h2>
+        <ul>
+          {donations.map((donation) => (
+            <li key={donation.id} className="donor-item">
+              <span>{donation.donor_name}</span>
+              <span>KSh {donation.amount.toLocaleString()}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section> 
+  </main>
+</div>
   );
 }
+

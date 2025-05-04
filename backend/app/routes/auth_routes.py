@@ -10,8 +10,8 @@ auth_bp = Blueprint('auth', __name__)
 logger = logging.getLogger(__name__)
 
 
-@auth_bp.route('/register', methods=['POST'])
-def register():
+@auth_bp.route('/register_donor', methods=['POST'])
+def register_donor():
     if current_user.is_authenticated:
         return jsonify({"message": "Already logged in"}), 400
 
@@ -22,6 +22,8 @@ def register():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
+    name = data.get('name')
+    phone = data.get('phone')
 
     if not username or not email or not password:
         return jsonify({"message": "Missing required fields"}), 400
@@ -36,6 +38,9 @@ def register():
             username=username,
             email=email,
             password=hashed_password,
+            contact=phone,
+            full_name=name,
+            role="donor",
             is_admin=(email.lower() == 'admin@example.com'),
         )
         db.session.add(user)
@@ -61,7 +66,7 @@ def register_charity():
     email = data.get('email')
     password = data.get('password')
     name = data.get('name')
-    contact = data.get('phone')
+    phone = data.get('phone')
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -69,7 +74,7 @@ def register_charity():
         username=username,
         email=email,
         password=hashed_password,
-        contact=contact,
+        contact=phone,
         full_name=name,
         role="charity"  # Since role column is set to default "donor" value 
     )

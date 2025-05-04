@@ -55,14 +55,7 @@ def create_app():
     app.register_blueprint(donation_bp, url_prefix='/donations')
     app.register_blueprint(charity_bp, url_prefix='/charities')
     app.register_blueprint(story_bp, url_prefix='/stories')
-    # app.register_blueprint(inventory_bp, url_prefix='/charities')
-    app.register_blueprint(inventory_bp)
-
-
-    @app.route('/test', methods=['GET'])
-    def test_route():
-        return 'Test Route is working!'
-
+    app.register_blueprint(inventory_bp, url_prefix='/inventory')
 
     @app.route('/')
     def index():

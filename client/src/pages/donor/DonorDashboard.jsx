@@ -44,7 +44,7 @@ const DonorDashboard = () => {
           ))}
         </div>
       </main>
-      <footer className="footer">
+      {/* <footer className="footer">
         <div>
         <p><i className="fas fa-envelope"></i> tuinuewasichana@gmail.co.ke</p>
         <p><i className="fas fa-phone"></i> +254712345678</p>
@@ -53,7 +53,7 @@ const DonorDashboard = () => {
         <p><i className="fas fa-facebooks"></i> Tuinue Wasichana</p>
         <p><i className="fas fa-twitter"></i> Tuinue Wasichana</p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
