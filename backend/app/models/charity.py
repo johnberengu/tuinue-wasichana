@@ -25,9 +25,8 @@ class Charity(db.Model):
     donations = db.relationship('Donation', back_populates='charity', cascade='all, delete-orphan')
     stories = db.relationship('Story', back_populates='charity', cascade="all, delete-orphan")
     inventory = db.relationship('Inventory', back_populates='charity', cascade="all, delete-orphan")
+    beneficiary = db.relationship('Beneficiary', back_populates='charity', cascade="all, delete-orphan")
     donors = db.relationship('Donor', secondary='donations', back_populates='charities_donated_to', overlaps="donations,donor")
-
-
 
     def __repr__(self):
         return f'<Charity {self.full_name}>'

@@ -15,6 +15,7 @@ from .routes.donation_routes import donation_bp
 from .routes.auth_routes import auth_bp
 from .routes.donor_routes import donor_bp
 from .routes.inventory_routes import inventory_bp
+from .routes.beneficiary_routes import beneficiary_bp
 
 from .models import Donor, Donation, User, Charity, Story, Inventory
 
@@ -28,7 +29,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')
 
-    print("Using DB URI:", app.config['SQLALCHEMY_DATABASE_URI'])
+    # print("Using DB URI:", app.config['SQLALCHEMY_DATABASE_URI'])
 
 
     app.config['ENV']   = 'development'
@@ -55,7 +56,8 @@ def create_app():
     app.register_blueprint(donation_bp, url_prefix='/donations')
     app.register_blueprint(charity_bp, url_prefix='/charities')
     app.register_blueprint(story_bp, url_prefix='/stories')
-    app.register_blueprint(inventory_bp, url_prefix='/inventory')
+    app.register_blueprint(inventory_bp)
+    app.register_blueprint(beneficiary_bp)
 
     @app.route('/')
     def index():

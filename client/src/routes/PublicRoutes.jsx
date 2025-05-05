@@ -13,12 +13,14 @@ import ResetPassword from '../components/auth/ResetPassword';
 import RegistrationChoice from '../components/auth/RegistrationChoice';
 import InventoryPage from '../pages/inventory/Inventory';
 import StoryManagement from '../pages/charity/StoryManagement';
+import Beneficiary from '../pages/beneficiary/Beneficiary';
+
 
 const PublicRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="charitydashboard" element={<CharityDashboard />} />
+      {/* <Route path="charitydashboard" element={<CharityDashboard />} /> */}
       <Route path="about" element={<AboutPage />} />
       <Route path="charities" element={<CharityListingPage />} />
       <Route path="charity-details/:id/" element={<CharityDetails />} />
@@ -31,6 +33,7 @@ const PublicRoutes = () => {
       <Route path="reset-password" element={<ResetPassword />} />
       <Route path="inventory" element={<InventoryPage />} />
       <Route path="stories" element={<StoryManagement />} />
+      <Route path="beneficiary" element={<Beneficiary />} />
     </Routes>
   );
 };

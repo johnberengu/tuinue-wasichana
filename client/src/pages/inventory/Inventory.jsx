@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../styles/InventoryPage.css";
 
-axios.defaults.baseURL = "http://localhost:5000/inventory"; 
+axios.defaults.baseURL = "http://localhost:5000/inventory/charities/1/inventory";
 
 const InventoryPage = ({ charityId }) => {
   const [inventory, setInventory] = useState([]);
@@ -11,6 +11,10 @@ const InventoryPage = ({ charityId }) => {
     quantity: "",
     beneficiary_name: "",
   });
+  const [editMode, setEditMode] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     if (charityId) {
@@ -19,40 +23,83 @@ const InventoryPage = ({ charityId }) => {
   }, [charityId]);
 
   const fetchInventory = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(`/charities/${charityId}/inventory`);
       setInventory(res.data);
     } catch (error) {
+      setError("Failed to fetch inventory");
       console.error("Failed to fetch inventory", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleAddItem = async () => {
-    if (!newItem.item_name || !newItem.quantity) return;
+  const handleAddOrUpdateItem = async () => {
+    if (!newItem.item_name || !newItem.quantity) {
+      setError("Please provide both item name and quantity");
+      return;
+    }
+
+    setLoading(true);
     try {
-      await axios.post(`/charities/${charityId}/inventory`, {
-        ...newItem,
-        quantity: parseInt(newItem.quantity),
-      });
+      if (editMode) {
+        await axios.put(
+          `/charities/${charityId}/inventory/${editingId}`,
+          {
+            ...newItem,
+            quantity: parseInt(newItem.quantity),
+          }
+        );
+      } else {
+        await axios.post(`/charities/${charityId}/inventory`, {
+          ...newItem,
+          quantity: parseInt(newItem.quantity),
+        });
+      }
+
       fetchInventory();
       setNewItem({ item_name: "", quantity: "", beneficiary_name: "" });
+      setEditMode(false);
+      setEditingId(null);
+      setError(null); 
     } catch (error) {
-      console.error("Add item failed", error);
+      setError(editMode ? "Update failed" : "Add item failed");
+      console.error(editMode ? "Update failed" : "Add item failed", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleEditItem = (item) => {
+    setEditMode(true);
+    setEditingId(item.id);
+    setNewItem({
+      item_name: item.item_name,
+      quantity: item.quantity,
+      beneficiary_name: item.beneficiary_name || "",
+    });
   };
 
   const handleDeleteItem = async (id) => {
+    setLoading(true);
     try {
       await axios.delete(`/charities/${charityId}/inventory/${id}`);
       fetchInventory();
     } catch (error) {
+      setError("Delete item failed");
       console.error("Delete item failed", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="inventory-container">
       <h2 className="inventory-title">Inventory Page</h2>
+
+      {error && <div className="error-message">{error}</div>} {/* Display error messages */}
+      {loading && <div className="loading-message">Loading...</div>} {/* Display loading message */}
 
       <div className="inventory-table">
         <div className="inventory-header">
@@ -66,8 +113,14 @@ const InventoryPage = ({ charityId }) => {
           <div key={item.id} className="inventory-row">
             <div>{item.item_name}</div>
             <div>{item.quantity}</div>
-            <div>{item.quantity > 0 ? "Sent" : "Waiting"}</div>
+            <div>{item.quantity > 0 ? "Delivered" : "Pending"}</div>
             <div>
+              <button
+                className="edit-button"
+                onClick={() => handleEditItem(item)}
+              >
+                Edit
+              </button>
               <button
                 className="delete-button"
                 onClick={() => handleDeleteItem(item.id)}
@@ -108,8 +161,8 @@ const InventoryPage = ({ charityId }) => {
           }
         />
         <div className="button-group">
-          <button className="action-button" onClick={handleAddItem}>
-            Add Item
+          <button className="action-button" onClick={handleAddOrUpdateItem}>
+            {editMode ? "Update Item" : "Add Item"}
           </button>
         </div>
       </div>
