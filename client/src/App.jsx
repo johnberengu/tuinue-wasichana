@@ -13,7 +13,7 @@ const App = () => {
   const user = useSelector((state) => state.auth.user);
 
   return (
-    <PayPalScriptProvider options={{ 'client-id': 'AbaxFrGNcf9YrEXuPFwJbcGFs7eaN3ogpe6v2bWOf0HtAdPiXRTVgOWC0mgZjvjl1YOWntuKVurmzsfT' }}>
+    <PayPalScriptProvider options={{ 'client-id': 'AbaxFrGNcf9YrEXuPFwJbcGFs7eaN3ogpe6v2bWOf0HtAdPiXRTVgOWC0mgZjvjl1YOWntuKVurmzsfT',Currency:'USD' }}>
       <Router>
         <div className="app-container">
           <Navbar />
