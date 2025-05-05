@@ -68,7 +68,13 @@ export default function CharityDashboard() {
           <div className="card">
             <h3>Anonymous Donations</h3>
             <p className="amount">KSh {anonymousDonations.toLocaleString()}</p>
+          <div className="card">
+            <h3>Anonymous Donations</h3>
+            <p className="amount">KSh {anonymousDonations.toLocaleString()}</p>
           </div>
+          <div className="card">
+            <h3>Total Donations</h3>
+            <p className="amount">KSh {totalDonations.toLocaleString()}</p>
           <div className="card">
             <h3>Total Donations</h3>
             <p className="amount">KSh {totalDonations.toLocaleString()}</p>
@@ -79,7 +85,13 @@ export default function CharityDashboard() {
           <div className="card">
             <h2>Donors</h2>
             <ul>
+
+        <section className="donors-list">
+          <div className="card">
+            <h2>Donors</h2>
+            <ul>
               {donations.map((donation) => (
+                <li key={donation.id} className="donor-item">
                 <li key={donation.id} className="donor-item">
                   <span>{donation.donor_name}</span>
                   <span>KSh {donation.amount.toLocaleString()}</span>

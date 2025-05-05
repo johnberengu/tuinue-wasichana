@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Donation, Donor, Charity
 from app import db
 
+donation_bp = Blueprint('donation_bp', __name__)
 
 donation_bp = Blueprint('donation', __name__)
 
@@ -19,7 +20,7 @@ def get_donation(id):
         return jsonify({'error': 'Donation not found'}), 404
     return jsonify(donation.to_dict()), 200
 
-
+# POST create a donation
 @donation_bp.route('/', methods=['POST'])
 def create_donation():
     data = request.get_json()

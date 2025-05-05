@@ -1,8 +1,13 @@
+from datetime import datetime
+from flask_login import UserMixin
+from flask_bcrypt import Bcrypt
+from app.db import db
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin 
 from app import db
 
+bcrypt = Bcrypt()
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -28,9 +33,10 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(current_app.config['SECRET_KEY'])
+        s = Serializer('SECRET_KEY')
         try:
-            user_id = s.loads(token)['user_id']
+            data = s.loads(token, max_age=3600, salt='reset-password')
+            user_id = data['user_id']
         except Exception:
             return None
         return User.query.get(user_id)

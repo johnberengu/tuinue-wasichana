@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import CharityDashboard from '../pages/charity/CharityDashboard';
+// import CharityDashboard from '../pages/charity/CharityDashboard';
 import BeneficiaryManagement from '../pages/charity/BeneficiaryManagement';
 import StoryManagement from '../pages/charity/StoryManagement';
 import CharityDetails from '../pages/charity/CharityDetails';
@@ -13,6 +13,7 @@ const CharityRoutes = () => {
       <Route path="/:id/inventory" element={<InventoryPage />} />
       <Route path="/:id/stories" element={<StoryManagement />} />
       <Route path="charity-details" element={<CharityDetails />} />
+      {/* <Route path="inventory" element={<Inventory charityId={1} />} /> */}
     </Routes>
   );
 };
