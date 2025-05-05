@@ -1,44 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios"; // Added axios
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import "../../styles/DonationPage.css";
 
 const DonationPage = () => {
   const [amount, setAmount] = useState("");
   const [selectedQuickAmount, setSelectedQuickAmount] = useState(null);
   const [anonymous, setAnonymous] = useState(false);
-  const [donationType, setDonationType] = useState("one-time"); // "one-time" or "monthly"
+  const [donationType, setDonationType] = useState("one-time"); 
 
   const quickAmounts = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500];
 
   const handleQuickAmountClick = (value) => {
     setAmount(value);
     setSelectedQuickAmount(value);
-  };
-
-  const handleDonate = async () => {
-    if (!amount || isNaN(amount) || Number(amount) <= 0) {
-      alert("Please enter a valid donation amount.");
-      return;
-    }
-
-    try {
-      const response = await axios.post("http://localhost:5000/donations", {
-        amount: parseFloat(amount),
-        anonymous: anonymous,
-        frequency: donationType,
-      });
-
-      alert("Donation submitted successfully!");
-
-      // Reset the form
-      setAmount("");
-      setSelectedQuickAmount(null);
-      setAnonymous(false);
-      setDonationType("one-time");
-    } catch (error) {
-      console.error("Donation error:", error);
-      alert("Failed to submit donation.");
-    }
   };
 
   const handleSetReminder = () => {
@@ -60,7 +34,7 @@ const DonationPage = () => {
       </div>
 
       <div className="donation-right">
-        <h1>MAKE A DONATION</h1>
+        <h1>Make a Donation</h1>
 
         <div className="quick-amounts">
           {quickAmounts.map((amt) => (
@@ -124,14 +98,36 @@ const DonationPage = () => {
           <button className="reminder-button" onClick={handleSetReminder}>
             Set Reminder
           </button>
+        </div>
 
-          <button className="paypal-donate-button" onClick={handleDonate}>
-            <img
-              src="src/assets/paypal donate.jpg"
-              alt="Donate with PayPal"
-              className="paypal-donate-image"
-            />
-          </button>
+        <div className="paypal-button-wrapper">
+          <PayPalButtons
+            style={{ layout: "vertical" }}
+            disabled={!amount || isNaN(amount) || Number(amount) <= 0}
+            forceReRender={[amount]}
+            createOrder={(data, actions) => {
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: amount.toString(),
+                    },
+                  },
+                ],
+              });
+            }}
+            onApprove={(data, actions) => {
+              return actions.order.capture().then((details) => {
+                alert(
+                  `Donation successful! Thank you, ${details.payer.name.given_name}.`
+                );
+              });
+            }}
+            onError={(err) => {
+              console.error("PayPal Checkout error:", err);
+              alert("An error occurred during payment.");
+            }}
+          />
         </div>
       </div>
     </section>

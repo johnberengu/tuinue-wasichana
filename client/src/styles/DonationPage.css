@@ -144,6 +144,8 @@ h1 {
   gap: 1rem;
   margin-top: 1rem;
   flex-wrap: wrap;
+  align-items: center;
+  flex-direction: column;
 }
 
 .reminder-button {
@@ -193,3 +195,18 @@ h1 {
     flex: 1 1 100%;
   }
 }
+
+
+.paypal-button-wrapper {
+  margin-top: 20px;
+  align-items: center;
+  width: 100%;
+  padding-left: 200px;
+  padding-right: 0;
+}
+
+.paypal-button-wrapper iframe {
+  max-width: 500px; 
+  width: 100%;
+}
+
