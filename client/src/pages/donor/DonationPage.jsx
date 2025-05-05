@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-// import "./Header.jsx";
-// import "./Footer.jsx";
+import axios from "axios"; // Added axios
 import "../../styles/DonationPage.css";
 
 const DonationPage = () => {
@@ -16,16 +15,30 @@ const DonationPage = () => {
     setSelectedQuickAmount(value);
   };
 
-  const handleDonate = () => {
+  const handleDonate = async () => {
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
       alert("Please enter a valid donation amount.");
       return;
     }
-    alert(
-      `Donating $${amount}${
-        anonymous ? " anonymously" : ""
-      } as a ${donationType} donation.`
-    );
+
+    try {
+      const response = await axios.post("http://localhost:5000/donations", {
+        amount: parseFloat(amount),
+        anonymous: anonymous,
+        frequency: donationType,
+      });
+
+      alert("Donation submitted successfully!");
+
+      // Reset the form
+      setAmount("");
+      setSelectedQuickAmount(null);
+      setAnonymous(false);
+      setDonationType("one-time");
+    } catch (error) {
+      console.error("Donation error:", error);
+      alert("Failed to submit donation.");
+    }
   };
 
   const handleSetReminder = () => {
@@ -47,7 +60,7 @@ const DonationPage = () => {
       </div>
 
       <div className="donation-right">
-        <h1>Make a Donation</h1>
+        <h1>MAKE A DONATION</h1>
 
         <div className="quick-amounts">
           {quickAmounts.map((amt) => (
@@ -114,7 +127,7 @@ const DonationPage = () => {
 
           <button className="paypal-donate-button" onClick={handleDonate}>
             <img
-              src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
+              src="src/assets/paypal donate.jpg"
               alt="Donate with PayPal"
               className="paypal-donate-image"
             />
