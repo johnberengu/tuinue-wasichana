@@ -111,7 +111,9 @@ def login():
             'username': user.username,
             'email': user.email,
             'role': user.role,  
-            'id': user.id
+            'id': user.id, 
+            'donor': {"id": user.donor.id} if user.donor else None,
+            'charity': {"id": user.charity.id} if user.charity else None
             }), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401
@@ -134,7 +136,9 @@ def get_users():
             "username": user.username,
             "email": user.email,
             "is_admin": user.is_admin, 
-            "role": user.role
+            "role": user.role,
+            "donor": {"id": user.donor.id} if user.donor else None,
+            "charity": {"id": user.charity.id} if user.charity else None
         }
         for user in users
     ]
