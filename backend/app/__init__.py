@@ -1,3 +1,7 @@
+# __init__.py
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 from dotenv import load_dotenv
 from flask import Flask
@@ -55,7 +59,7 @@ def create_app():
     app.register_blueprint(donor_bp, url_prefix='/donors')
     app.register_blueprint(donation_bp, url_prefix='/donations')
     app.register_blueprint(charity_bp, url_prefix='/charities')
-    app.register_blueprint(story_bp, url_prefix='/stories')
+    app.register_blueprint(story_bp)
     app.register_blueprint(inventory_bp)
     app.register_blueprint(beneficiary_bp)
 

@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/Beneficiary.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function BeneficiariesPage() {
+  const { id:charityId } = useParams();
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
-  const [people, setPeople] = useState('');
+  const [number_of_people, setPeople] = useState('');
   const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
   const [beneficiaryInventory, setBeneficiaryInventory] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/beneficiaries')
+    axios.get(`http://localhost:5000/charities/${charityId}/beneficiaries`)
       .then(response => setBeneficiaries(response.data))
       .catch(error => console.error('Error fetching beneficiaries:', error));
   }, []);
 
   const handleAddBeneficiary = () => {
-    const newBeneficiary = { name, location, people };
-    axios.post('http://localhost:8000/beneficiaries', newBeneficiary)
+    const newBeneficiary = { name, location, number_of_people };
+    axios.post(`http://localhost:5000/charities/${charityId}/beneficiaries`, newBeneficiary)
       .then(response => {
         setBeneficiaries([...beneficiaries, response.data]);
         setName('');
@@ -30,7 +31,7 @@ function BeneficiariesPage() {
   };
 
   const handleViewInventory = (beneficiaryId, beneficiaryName) => {
-    axios.get(`http://localhost:8000/beneficiaries/${beneficiaryId}/inventory`)
+    axios.get(`http://localhost:5000/charities/${charityId}/beneficiaries/${beneficiaryId}/inventory`)
       .then(response => {
         setSelectedBeneficiary({ id: beneficiaryId, name: beneficiaryName });
         setBeneficiaryInventory(response.data);
@@ -47,7 +48,7 @@ function BeneficiariesPage() {
     <div className='page-layout'>
        <div className="left-sidebar">
          <h3>Navigation</h3>
-         <Link to="/dashboard" className="sidebar-link">← Back to Dashboard</Link>
+         <Link to={`/charity/${charityId}`} className="sidebar-link">← Back to Dashboard</Link>
        </div>
     <div className="beneficiaries-page">
       <h2 className='beneficiary-title'>Beneficiaries</h2>
@@ -65,7 +66,7 @@ function BeneficiariesPage() {
             <tr key={beneficiary.id} className="beneficiary-row">
               <td>{beneficiary.name}</td>
               <td>{beneficiary.location}</td>
-              <td>{beneficiary.people}</td>
+              <td>{beneficiary.number_of_people}</td>
               <td>
                 <button
                   className="view-button"
@@ -95,7 +96,7 @@ function BeneficiariesPage() {
         <input
           type="number"
           placeholder="Number of People"
-          value={people}
+          value={number_of_people}
           onChange={(e) => setPeople(e.target.value)}
         />
         <button onClick={handleAddBeneficiary}>Add</button>

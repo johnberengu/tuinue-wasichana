@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from './features/auth/authSlice';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -11,6 +13,14 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const App = () => {
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      dispatch(setUser(JSON.parse(savedUser)));
+    }
+  }, [dispatch]);
 
   return (
     <PayPalScriptProvider options={{ 'client-id': 'AbaxFrGNcf9YrEXuPFwJbcGFs7eaN3ogpe6v2bWOf0HtAdPiXRTVgOWC0mgZjvjl1YOWntuKVurmzsfT',Currency:'USD' }}>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../styles/InventoryPage.css";
+import { useParams } from "react-router-dom";
 
-axios.defaults.baseURL = "http://localhost:5000/inventory/charities/1/inventory";
+const InventoryPage = () => {
+  const { id: charityId } = useParams();
+  axios.defaults.baseURL = "http://localhost:5000";
 
-const InventoryPage = ({ charityId }) => {
   const [inventory, setInventory] = useState([]);
   const [newItem, setNewItem] = useState({
     item_name: "",
@@ -41,34 +43,34 @@ const InventoryPage = ({ charityId }) => {
       return;
     }
 
-    setLoading(true);
-    try {
-      if (editMode) {
-        await axios.put(
-          `/charities/${charityId}/inventory/${editingId}`,
-          {
-            ...newItem,
-            quantity: parseInt(newItem.quantity),
-          }
-        );
-      } else {
-        await axios.post(`/charities/${charityId}/inventory`, {
-          ...newItem,
-          quantity: parseInt(newItem.quantity),
-        });
+setLoading(true);
+try {
+  if (editMode) {
+    await axios.put(
+      (`/charities/${charityId}/inventory/${editingId}`),
+      {
+        ...newItem,
+        quantity: parseInt(newItem.quantity),
       }
+    );
+  } else {
+    await axios.post(`/charities/${charityId}/inventory`, {
+      ...newItem,
+      quantity: parseInt(newItem.quantity),
+    });
+  }
 
-      fetchInventory();
-      setNewItem({ item_name: "", quantity: "", beneficiary_name: "" });
-      setEditMode(false);
-      setEditingId(null);
-      setError(null); 
-    } catch (error) {
-      setError(editMode ? "Update failed" : "Add item failed");
-      console.error(editMode ? "Update failed" : "Add item failed", error);
-    } finally {
-      setLoading(false);
-    }
+  fetchInventory();
+  setNewItem({ item_name: "", quantity: "", beneficiary_name: "" });
+  setEditMode(false);
+  setEditingId(null);
+  setError(null); 
+} catch (error) {
+  setError(editMode ? "Update failed" : "Add item failed");
+  console.error(editMode ? "Update failed" : "Add item failed", error);
+} finally {
+  setLoading(false);
+}
   };
 
   const handleEditItem = (item) => {
@@ -98,75 +100,75 @@ const InventoryPage = ({ charityId }) => {
     <div className="inventory-container">
       <h2 className="inventory-title">Inventory Page</h2>
 
-      {error && <div className="error-message">{error}</div>} {/* Display error messages */}
-      {loading && <div className="loading-message">Loading...</div>} {/* Display loading message */}
+  {error && <div className="error-message">{error}</div>} {/* Display error messages */}
+  {loading && <div className="loading-message">Loading...</div>} {/* Display loading message */}
 
-      <div className="inventory-table">
-        <div className="inventory-header">
-          <div>Item</div>
-          <div>Quantity</div>
-          <div>Status</div>
-          <div>Action</div>
-        </div>
+  <div className="inventory-table">
+    <div className="inventory-header">
+      <div>Item</div>
+      <div>Quantity</div>
+      <div>Status</div>
+      <div>Action</div>
+    </div>
 
-        {inventory.map((item) => (
-          <div key={item.id} className="inventory-row">
-            <div>{item.item_name}</div>
-            <div>{item.quantity}</div>
-            <div>{item.quantity > 0 ? "Delivered" : "Pending"}</div>
-            <div>
-              <button
-                className="edit-button"
-                onClick={() => handleEditItem(item)}
-              >
-                Edit
-              </button>
-              <button
-                className="delete-button"
-                onClick={() => handleDeleteItem(item.id)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="input-section">
-        <input
-          type="text"
-          placeholder="Item Name"
-          className="input-field"
-          value={newItem.item_name}
-          onChange={(e) =>
-            setNewItem({ ...newItem, item_name: e.target.value })
-          }
-        />
-        <input
-          type="number"
-          placeholder="Quantity"
-          className="input-field"
-          value={newItem.quantity}
-          onChange={(e) =>
-            setNewItem({ ...newItem, quantity: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Beneficiary Name (optional)"
-          className="input-field"
-          value={newItem.beneficiary_name}
-          onChange={(e) =>
-            setNewItem({ ...newItem, beneficiary_name: e.target.value })
-          }
-        />
-        <div className="button-group">
-          <button className="action-button" onClick={handleAddOrUpdateItem}>
-            {editMode ? "Update Item" : "Add Item"}
+    {inventory.map((item) => (
+      <div key={item.id} className="inventory-row">
+        <div>{item.item_name}</div>
+        <div>{item.quantity}</div>
+        <div>{item.quantity > 0 ? "Delivered" : "Pending"}</div>
+        <div>
+          <button
+            className="edit-button"
+            onClick={() => handleEditItem(item)}
+          >
+            Edit
+          </button>
+          <button
+            className="delete-button"
+            onClick={() => handleDeleteItem(item.id)}
+          >
+            Delete
           </button>
         </div>
       </div>
+    ))}
+  </div>
+
+  <div className="input-section">
+    <input
+      type="text"
+      placeholder="Item Name"
+      className="input-field"
+      value={newItem.item_name}
+      onChange={(e) =>
+        setNewItem({ ...newItem, item_name: e.target.value })
+      }
+    />
+    <input
+      type="number"
+      placeholder="Quantity"
+      className="input-field"
+      value={newItem.quantity}
+      onChange={(e) =>
+        setNewItem({ ...newItem, quantity: e.target.value })
+      }
+    />
+    <input
+      type="text"
+      placeholder="Beneficiary Name (optional)"
+      className="input-field"
+      value={newItem.beneficiary_name}
+      onChange={(e) =>
+        setNewItem({ ...newItem, beneficiary_name: e.target.value })
+      }
+    />
+    <div className="button-group">
+      <button className="action-button" onClick={handleAddOrUpdateItem}>
+        {editMode ? "Update Item" : "Add Item"}
+      </button>
     </div>
+  </div>
+</div>
   );
 };
 

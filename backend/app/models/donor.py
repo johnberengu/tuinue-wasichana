@@ -15,10 +15,11 @@ class Donor(db.Model):
     donation_interval = db.Column(db.String(20), nullable=True)  # Frequency of donation: weekly, monthly, etc.
     reminder_set = db.Column(db.Boolean, default=False)  # Reminder for donation
     contact = db.Column(db.String(20), nullable=False)
+    profile_pic = db.Column(db.String(20), nullable=True)
 
     charities_donated_to = db.relationship('Charity', secondary='donations', back_populates='donors', overlaps="donations,charity")
     donations = db.relationship('Donation', back_populates='donor', cascade='all, delete-orphan')
-    user = db.relationship("User", back_populates="donor", cascade="all, delete-orphan", single_parent=True, uselist=False)
+    user=db.relationship('User', back_populates='donor', uselist=False)
     # charity = db.relationship('Charity', back_populates='donors')
 
     def __repr__(self):

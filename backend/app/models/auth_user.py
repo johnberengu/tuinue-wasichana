@@ -21,8 +21,9 @@ class User(db.Model, UserMixin):
     contact=db.Column(db.String(200), nullable=True)  
     full_name = db.Column(db.String(100), nullable=True)
 
-    donor = db.relationship("Donor", back_populates="user", uselist=False)
+    donor=db.relationship("Donor", back_populates="user", uselist=False, cascade="all, delete-orphan", single_parent=True)
     charity=db.relationship("Charity", back_populates="user", uselist=False, cascade="all, delete-orphan", single_parent=True)
+
     def __repr__(self):
         return f'<User {self.username}>'
 
