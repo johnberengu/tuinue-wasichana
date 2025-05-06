@@ -33,6 +33,7 @@ const DonorRegistration = () => {
       setUsernameAvailable(response.data.available);
       return response.data.available;
     } catch (error) {
+      console.error("Error checking:", error)
       setUsernameAvailable(false);
       return false;
     }

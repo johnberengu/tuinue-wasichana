@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt
-from app.models import User
+from app.models import User, Donor, Charity
 # from app.models.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm
 # from app.utils import send_reset_email
 import logging
@@ -44,7 +44,19 @@ def register_donor():
             is_admin=(email.lower() == 'admin@example.com'),
         )
         db.session.add(user)
+        db.session.flush()
+
+        donor = Donor(
+            user_id=user.id,    
+            full_name=user.full_name,
+            email=user.email,
+            password_hash=user.password,  
+            contact=user.contact
+        )
+        db.session.add(donor)
+
         db.session.commit()
+
         logger.info(f"Registered new user: {email}")
         return jsonify({"message": "Registration successful"}), 201
     except Exception as e:
@@ -79,6 +91,18 @@ def register_charity():
         role="charity"  # Since role column is set to default "donor" value 
     )
     db.session.add(new_user)
+    db.session.flush()
+
+    charity = Charity(
+        user_id=new_user.id,
+        full_name=new_user.full_name,
+        email=new_user.email,
+        password_hash=new_user.password,  
+        contact=new_user.contact
+        )
+    
+    db.session.add(charity)
+
     db.session.commit()
 
     return jsonify({"message": "Charity account created successfully"}), 201

@@ -52,3 +52,8 @@ def delete_inventory_item(charity_id, inventory_id):
     db.session.delete(inventory_item)
     db.session.commit()
     return jsonify({'message': 'Inventory item deleted'}), 200
+
+@inventory_bp.route('/charities/<int:charity_id>/beneficiaries/<int:beneficiary_id>/inventory', methods=['GET'])
+def get_inventory_for_beneficiary(charity_id, beneficiary_id):
+    inventory_items = Inventory.query.filter_by(beneficiary_id=beneficiary_id).all()
+    return jsonify([item.serialize() for item in inventory_items]), 200
