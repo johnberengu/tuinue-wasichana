@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function Settings({ donor }) {
   const [darkMode, setDarkMode] = useState(false);
   const [formData, setFormData] = useState({
-    name: donor.name,
+    name: donor.full_name,
     email: donor.email,
     password: ''
   });

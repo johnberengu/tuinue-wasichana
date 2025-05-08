@@ -11,39 +11,14 @@ def get_all_donations():
     return jsonify([donation.to_dict() for donation in donations]), 200
 
 
-@donation_bp.route('/<int:donation_id>', methods=['GET'])
-def get_donation(donation_id):
-    donation = Donation.query.get_or_404(donation_id)
-    if not donation:
+@donation_bp.route('/<int:charity_id>', methods=['GET'])
+def get_donation(charity_id):
+    donations = Donation.query.filter_by(charity_id=charity_id).all()
+    if not donations:
         return jsonify({'error': 'Donation not found'}), 404
-    return jsonify(donation.to_dict()), 200
+    return jsonify([donation.to_dict() for donation in donations]), 200
 
-# POST create a donation
-# @donation_bp.route('/', methods=['POST'])
-# def create_donation():
-#     data = request.get_json()
-#     try:
-#         donor = Donor.query.get(data['donor_id'])
-#         charity = Charity.query.get(data['charity_id'])
 
-#         if not donor or not charity:
-#             return jsonify({'error': 'Invalid donor or charity ID'}), 400
-
-#         donation = Donation(
-#             donor_id=data['donor_id'],
-#             charity_id=data['charity_id'],
-#             amount=data['amount'],
-#             anonymous=data.get('anonymous', False),
-#             repeat_donation=data.get('repeat_donation', False),
-#             reminder_set=data.get('reminder_set', False)
-#         )
-
-#         db.session.add(donation)
-#         db.session.commit()
-#         return jsonify(donation.to_dict()), 201
-
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500
 
 
 @donation_bp.route('/<int:id>', methods=['PUT'])
