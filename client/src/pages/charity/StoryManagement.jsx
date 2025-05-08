@@ -119,7 +119,6 @@ const StoryManagement = () => {
           <input
             type="file"
             accept="image/*"
-            placeholder="Choose Image File"
             onChange={handleImageChange}
           />
           <input
