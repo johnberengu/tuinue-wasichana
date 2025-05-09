@@ -35,7 +35,7 @@ def upgrade():
         batch_op.create_foreign_key(None, 'beneficiary', ['beneficiary_id'], ['id'])
 
     # Backfill data for existing rows
-    op.execute("UPDATE inventory SET beneficiary_id = 1 WHERE beneficiary_id IS NULL")
+    # op.execute("UPDATE inventory SET beneficiary_id = 1 WHERE beneficiary_id IS NULL")
 
     # Now alter the column to be non-nullable
     with op.batch_alter_table('inventory', schema=None) as batch_op:
