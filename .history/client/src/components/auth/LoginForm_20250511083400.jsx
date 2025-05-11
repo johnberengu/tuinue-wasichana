@@ -92,14 +92,11 @@ const LoginForm = () => {
       <div className="w-1/2 flex justify-center items-center bg-blue-100">
         <div
           className="bg-white shadow-md rounded-lg p-10 w-full flex flex-col items-center text-center"
-          style={{ maxWidth: "700px", minHeight: "550px" }}
+          style={{ maxWidth: "700px", minHeight: "500px" }} // Adjust minHeight as needed
         >
           <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
-            Log In
+            Login
           </h3>
-          <p className="text-gray-600 text-sm mb-6 text-left">
-            To access your account
-          </p>
           <form
             onSubmit={handleSubmit}
             className="space-y-5"
@@ -132,15 +129,6 @@ const LoginForm = () => {
                 className="mt-1 px-6 py-3 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none bg-transparent font-sans text-gray-900"
               />
             </div>
-            <div
-              style={{
-                marginTop: "30px",
-
-                display: "flex",
-
-                justifyContent: "center",
-              }}
-            ></div>
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-md font-semibold hover:bg-blue-700 transition font-sans"
@@ -148,15 +136,6 @@ const LoginForm = () => {
               Login
             </button>
           </form>
-          <div
-            style={{
-              marginTop: "30px",
-
-              display: "flex",
-
-              justifyContent: "center",
-            }}
-          ></div>
           {/* Register With Us Dropdown */}
           <div
             className="relative mt-8"
@@ -185,7 +164,7 @@ const LoginForm = () => {
                 }}
               >
                 <button
-                  onClick={() => navigate("/register/donor/individual")}
+                  onClick={() => navigate("/register-individual-donor")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -206,7 +185,7 @@ const LoginForm = () => {
                   Register Individual Donor
                 </button>
                 <button
-                  onClick={() => navigate("/register/donor/organization")}
+                  onClick={() => navigate("/register-organization-donor")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -228,7 +207,7 @@ const LoginForm = () => {
                   Register Organization Donor
                 </button>
                 <button
-                  onClick={() => navigate("/register/charity/individual")}
+                  onClick={() => navigate("/register-individual-charity")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -250,7 +229,7 @@ const LoginForm = () => {
                   Register Individual Charity
                 </button>
                 <button
-                  onClick={() => navigate("/register/charity/organization")}
+                  onClick={() => navigate("/register-organization-charity")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -275,15 +254,6 @@ const LoginForm = () => {
             )}
           </div>
           <div className="mt-6" style={{ width: "80%" }}>
-            <div
-              style={{
-                marginTop: "30px",
-
-                display: "flex",
-
-                justifyContent: "center",
-              }}
-            ></div>
             <button
               onClick={() => navigate("/reset-password")}
               className="bg-yellow-600 text-white py-2 rounded-md font-semibold hover:bg-yellow-700 transition font-sans w-full"

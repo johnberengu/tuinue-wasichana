@@ -45,7 +45,7 @@ const ResetPassword = () => {
             Reset Password
           </h3>
           <p className="text-gray-600 text-sm mb-6 text-left">
-            To regain access to your account
+            to access your account
           </p>
           <form
             onSubmit={handleSubmit}

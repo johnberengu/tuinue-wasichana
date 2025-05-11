@@ -185,7 +185,7 @@ const LoginForm = () => {
                 }}
               >
                 <button
-                  onClick={() => navigate("/register/donor/individual")}
+                  onClick={() => navigate("/register/donor")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -206,7 +206,7 @@ const LoginForm = () => {
                   Register Individual Donor
                 </button>
                 <button
-                  onClick={() => navigate("/register/donor/organization")}
+                  onClick={() => navigate("/register/donor")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -228,7 +228,7 @@ const LoginForm = () => {
                   Register Organization Donor
                 </button>
                 <button
-                  onClick={() => navigate("/register/charity/individual")}
+                  onClick={() => navigate("/register/charity")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -250,7 +250,7 @@ const LoginForm = () => {
                   Register Individual Charity
                 </button>
                 <button
-                  onClick={() => navigate("/register/charity/organization")}
+                  onClick={() => navigate("/register/charity")}
                   style={{
                     display: "block",
                     width: "100%",

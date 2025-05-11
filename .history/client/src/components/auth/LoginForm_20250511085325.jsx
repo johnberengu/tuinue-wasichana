@@ -92,14 +92,11 @@ const LoginForm = () => {
       <div className="w-1/2 flex justify-center items-center bg-blue-100">
         <div
           className="bg-white shadow-md rounded-lg p-10 w-full flex flex-col items-center text-center"
-          style={{ maxWidth: "700px", minHeight: "550px" }}
+          style={{ maxWidth: "700px", minHeight: "500px" }} // Adjust minHeight as needed
         >
           <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
-            Log In
+            Login
           </h3>
-          <p className="text-gray-600 text-sm mb-6 text-left">
-            To access your account
-          </p>
           <form
             onSubmit={handleSubmit}
             className="space-y-5"
@@ -167,7 +164,7 @@ const LoginForm = () => {
               onClick={() => setShowDropdown(!showDropdown)}
               className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-md font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-green-300 transition-all flex items-center justify-center w-full"
             >
-              Commence Registration
+              Register
             </button>
             {showDropdown && (
               <div
@@ -185,7 +182,7 @@ const LoginForm = () => {
                 }}
               >
                 <button
-                  onClick={() => navigate("/register/donor/individual")}
+                  onClick={() => navigate("/DonorRegistration")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -206,7 +203,7 @@ const LoginForm = () => {
                   Register Individual Donor
                 </button>
                 <button
-                  onClick={() => navigate("/register/donor/organization")}
+                  onClick={() => navigate("/DonorRegistration")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -228,7 +225,7 @@ const LoginForm = () => {
                   Register Organization Donor
                 </button>
                 <button
-                  onClick={() => navigate("/register/charity/individual")}
+                  onClick={() => navigate("/register/charity")}
                   style={{
                     display: "block",
                     width: "100%",
@@ -250,7 +247,7 @@ const LoginForm = () => {
                   Register Individual Charity
                 </button>
                 <button
-                  onClick={() => navigate("/register/charity/organization")}
+                  onClick={() => navigate("/register/charity")}
                   style={{
                     display: "block",
                     width: "100%",

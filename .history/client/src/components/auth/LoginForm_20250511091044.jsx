@@ -250,7 +250,7 @@ const LoginForm = () => {
                   Register Individual Charity
                 </button>
                 <button
-                  onClick={() => navigate("/register/charity/organization")}
+                  onClick={() => navigate("/register/charity")}
                   style={{
                     display: "block",
                     width: "100%",

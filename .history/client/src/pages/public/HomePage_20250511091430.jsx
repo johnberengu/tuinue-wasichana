@@ -95,7 +95,7 @@ const HomePage = () => {
                   }}
                 >
                   <button
-                    onClick={() => navigate("/register/donor/individual")}
+                    onClick={() => navigate("/register-individual-donor")}
                     style={{
                       display: "block",
                       width: "100%",
