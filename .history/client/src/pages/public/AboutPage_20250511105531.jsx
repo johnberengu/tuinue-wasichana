@@ -8,7 +8,7 @@ const AboutPage = () => {
           className="text-4xl font-bold text-center mb-8 lg:mb-12"
           style={{ color: "black" }}
         >
-          About Us: Tuinue Wasichana
+          Who We Are: Tuinue Wasichana
         </h1>
 
         <div className="max-w-3xl mx-auto text-center">
@@ -58,33 +58,33 @@ const AboutPage = () => {
             <h2 className="text-2xl font-semibold text-blue-600 mb-3 text-center">
               Our Values
             </h2>
-            <ul className="list-none text-lg space-y-3 max-w-md mx-auto text-center">
-              <li>
+            <ul className="list-none text-lg space-y-3 max-w-md mx-auto">
+              <li className="text-left">
                 <strong className="font-semibold text-blue-600">
                   Empowerment:
                 </strong>{" "}
                 We invest in girls’ potential as leaders, thinkers, and
                 change-makers.
               </li>
-              <li>
+              <li className="text-left">
                 <strong className="font-semibold text-blue-600">
                   Dignity:
                 </strong>{" "}
                 Every girl deserves to feel confident and unashamed of her body
                 and her period.
               </li>
-              <li>
+              <li className="text-left">
                 <strong className="font-semibold text-blue-600">Equity:</strong>{" "}
                 We fight to close the opportunity gap caused by poverty and
                 gender bias.
               </li>
-              <li>
+              <li className="text-left">
                 <strong className="font-semibold text-blue-600">
                   Transparency:
                 </strong>{" "}
                 We ensure every donation is traceable and impactful.
               </li>
-              <li>
+              <li className="text-left">
                 <strong className="font-semibold text-blue-600">
                   Community:
                 </strong>{" "}

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./features/auth/authSlice";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -13,13 +14,11 @@ import PublicRoutes from "./routes/PublicRoutes";
 import DonorRoutes from "./routes/DonorRoutes";
 import CharityRoutes from "./routes/CharityRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
-import { useSelector } from "react-redux";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const App = () => {
   const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch(); // const location = useLocation(); // const hideLayoutOnRoutes = ['/register/donor', '/register/charity', '/login', '/reset-password']; // const shouldShowLayout = !hideLayoutOnRoutes.includes(location.pathname);
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
@@ -37,27 +36,40 @@ const App = () => {
         Currency: "USD",
       }}
     >
+           {" "}
       <Router>
+               {" "}
         <div className="app-container">
-          <Navbar />
+                    {/* {shouldShowLayout && <Navbar />} */}
+                    <Navbar /> {/* Force render Navbar */}         {" "}
           <main className="app-main">
+                       {" "}
             <Routes>
-              <Route path="/*" element={<PublicRoutes />} />
+                            <Route path="/*" element={<PublicRoutes />} />     
+                     {" "}
               {user && user.role === "donor" && (
                 <Route path="/donor/*" element={<DonorRoutes />} />
               )}
+                           {" "}
               {user && user.role === "charity" && (
                 <Route path="/charity/*" element={<CharityRoutes />} />
               )}
+                           {" "}
               {user && user.role === "admin" && (
                 <Route path="/admin/*" element={<AdminRoutes />} />
               )}
-              <Route path="*" element={<Navigate to="/" replace />} />
+                           {" "}
+              <Route path="*" element={<Navigate to="/" replace />} />         
+               {" "}
             </Routes>
+                     {" "}
           </main>
-          <Footer />
+                    {/* {shouldShowLayout && <Footer />} */}
+                    <Footer /> {/* Force render Footer */}       {" "}
         </div>
+             {" "}
       </Router>
+         {" "}
     </PayPalScriptProvider>
   );
 };

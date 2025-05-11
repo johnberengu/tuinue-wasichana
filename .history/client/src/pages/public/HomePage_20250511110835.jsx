@@ -46,9 +46,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <main className="font-sans bg-white text-gray-900">
-      {" "}
-      {/* Changed background to bg-white */}
+    <main className="font-sans bg-light-blue-100 text-gray-900">
       {/* HERO SECTION */}
       <section className="relative h-[83vh] md:h-[90vh] overflow-hidden">
         <img
@@ -189,8 +187,11 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
       {/* FOCUS AREAS */}
       <section className="py-12 bg-blue-100">
+        {" "}
+        {/* Changed background to bg-blue-100 */}
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-semibold text-gray-800 mb-8">
             Our Core Pillars of Empowerment
@@ -231,8 +232,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
       {/* IMPACT SECTION */}
-      <section className="py-12 bg-blue-100 text-center">
+      <section className="py-12 bg-gray-100 text-center">
         <h2 className="text-3xl font-semibold text-gray-800 mb-6">
           Witness Our Growing Ripple Effect
         </h2>
@@ -262,6 +264,7 @@ const HomePage = () => {
           ))}
         </div>
       </section>
+
       {/* EMPOWERMENT SECTION */}
       <section className="relative h-[80vh] md:h-[80vh] overflow-hidden">
         <img
@@ -298,6 +301,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
       {/* TESTIMONIALS SECTION */}
       <section className="py-16 bg-gradient-to-br from-gray-50 via-white to-gray-100 text-center">
         <h2 className="text-3xl font-semibold text-gray-800 mb-10">
@@ -335,8 +339,9 @@ const HomePage = () => {
           ))}
         </div>
       </section>
+
       {/* CONTACT SECTION */}
-      <section className="py-12 bg-blue-100 text-center">
+      <section className="py-12 bg-white text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Connect With Us
         </h2>

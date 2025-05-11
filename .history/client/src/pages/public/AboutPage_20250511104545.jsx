@@ -2,16 +2,15 @@ import React from "react";
 
 const AboutPage = () => {
   return (
-    <section className="bg-blue-100 text-gray-900 py-16 lg:py-24">
+    <section className="bg-blue-50 text-gray-900 py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
-        <h1
-          className="text-4xl font-bold text-center mb-8 lg:mb-12"
-          style={{ color: "black" }}
-        >
-          About Us: Tuinue Wasichana
+        <h1 className="text-4xl font-bold text-center text-blue-700 mb-8 lg:mb-12">
+          Who We Are: Tuinue Wasichana
         </h1>
 
         <div className="max-w-3xl mx-auto text-center">
+          {" "}
+          {/* Added text-center here */}
           <p className="text-lg leading-relaxed mb-6">
             <strong className="font-semibold text-blue-600">
               Tuinue Wasichana
@@ -23,9 +22,8 @@ const AboutPage = () => {
             period, nor should she be forced into silence by stigma, poverty, or
             systemic inequality.
           </p>
-
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-blue-600 mb-3 text-center">
+            <h2 className="text-2xl font-semibold text-blue-600 mb-3">
               Our Mission
             </h2>
             <p className="text-lg leading-relaxed">
@@ -38,9 +36,8 @@ const AboutPage = () => {
               and underserved communities.
             </p>
           </div>
-
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-blue-600 mb-3 text-center">
+            <h2 className="text-2xl font-semibold text-blue-600 mb-3">
               Why We Exist
             </h2>
             <p className="text-lg leading-relaxed">
@@ -53,12 +50,16 @@ const AboutPage = () => {
               for lasting change.
             </p>
           </div>
-
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-blue-600 mb-3 text-center">
+            <h2 className="text-2xl font-semibold text-blue-600 mb-3">
               Our Values
             </h2>
-            <ul className="list-none text-lg space-y-3 max-w-md mx-auto text-center">
+            <ul
+              className="list-disc ml-auto mr-auto text-lg space-y-3"
+              style={{ maxWidth: "300px" }}
+            >
+              {" "}
+              {/* Centering the list */}
               <li>
                 <strong className="font-semibold text-blue-600">
                   Empowerment:
@@ -93,9 +94,8 @@ const AboutPage = () => {
               </li>
             </ul>
           </div>
-
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-blue-600 mb-3 text-center">
+            <h2 className="text-2xl font-semibold text-blue-600 mb-3">
               Our Approach
             </h2>
             <p className="text-lg leading-relaxed">
@@ -108,9 +108,8 @@ const AboutPage = () => {
               delivery of support.
             </p>
           </div>
-
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-blue-600 mb-3 text-center">
+            <h2 className="text-2xl font-semibold text-blue-600 mb-3">
               Our Impact So Far
             </h2>
             <p className="text-lg leading-relaxed">
@@ -122,9 +121,8 @@ const AboutPage = () => {
               continent.
             </p>
           </div>
-
           <div className="mb-10">
-            <h2 className="text-2xl font-semibold text-blue-600 mb-3 text-center">
+            <h2 className="text-2xl font-semibold text-blue-600 mb-3">
               Join Us
             </h2>
             <p className="text-lg leading-relaxed">
@@ -134,7 +132,6 @@ const AboutPage = () => {
               — not in spite of her gender, but because of her strength.
             </p>
           </div>
-
           <p className="text-center text-xl font-semibold text-blue-500 mt-8">
             Tuinue Wasichana — Uplifting Her Today. Empowering the Future
             Forever.

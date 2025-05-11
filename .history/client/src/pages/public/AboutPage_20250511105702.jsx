@@ -8,7 +8,7 @@ const AboutPage = () => {
           className="text-4xl font-bold text-center mb-8 lg:mb-12"
           style={{ color: "black" }}
         >
-          About Us: Tuinue Wasichana
+          Who We Are: Tuinue Wasichana
         </h1>
 
         <div className="max-w-3xl mx-auto text-center">
