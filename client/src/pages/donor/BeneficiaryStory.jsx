@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import "../../styles/BeneficiaryStory.css";
 // import { apiFetch } from '../utils/api';
 
-const BeneficiaryStories = () => {
+const BeneficiaryStory = () => {
   const [charities, setCharities] = useState([]);
   const [donatedCharityIds, setDonatedCharityIds] = useState([]);
   const [selectedCharity, setSelectedCharity] = useState(null);
@@ -10,26 +11,38 @@ const BeneficiaryStories = () => {
   const [showFullStory, setShowFullStory] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const donor = useSelector((state) => state.auth.user);
+  const id = donor?.id;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const donations = await fetch(`http://127.0.0.1:5000/donor/${id}/donations`);
-        const charityIds = [...new Set(donations.map((d) => d.charity_id))];
-        setDonatedCharityIds(charityIds);
-        const allCharities = await fetch(`http://127.0.0.1:5000/donor/${id}/charities`);
-        const filteredCharities = allCharities.filter((charity) =>
-          charityIds.includes(charity.id)
-        );
-        setCharities(filteredCharities);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load beneficiary stories. Please try again.');
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+
+useEffect(() => {
+  const fetchData = async () => {
+    if (!id) return;
+    try {
+      const donationsRes = await fetch(`http://127.0.0.1:5000/donor/${id}/donations`);
+      const donations = await donationsRes.json();
+
+      const charityIds = [...new Set(donations.map((d) => d.charity_id))];
+      setDonatedCharityIds(charityIds);
+
+      const charitiesRes = await fetch(`http://127.0.0.1:5000/donors/${id}/charities`);
+      const allCharities = await charitiesRes.json();
+
+      const filteredCharities = allCharities.filter((charity) =>
+        charityIds.includes(charity.id)
+      );
+
+      setCharities(filteredCharities);
+      setLoading(false);
+    } catch (err) {
+      setError('Failed to load beneficiary stories. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [id]);
+
 
   const openModal = (charity) => {
     setSelectedCharity(charity);
@@ -103,4 +116,4 @@ const BeneficiaryStories = () => {
   );
 };
 
-export default BeneficiaryStories; 
+export default BeneficiaryStory; 
