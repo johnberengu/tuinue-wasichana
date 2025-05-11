@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 @donor_bp.route('<int:donor_id>/charities', methods=['GET'])
-@login_required
+# @login_required
 def get_charities_donated_to(donor_id):
     donor = Donor.query.get_or_404(donor_id)
     charities = {donation.charity for donation in donor.donations}
@@ -98,7 +98,7 @@ def public_donate(charity_id):
 
 
 @donor_bp.route('/<int:donor_id>/donations', methods=['GET'])
-@login_required
+# @login_required
 def get_donation_history(donor_id):
     donor = Donor.query.get_or_404(donor_id)
     donations = donor.donations
@@ -107,10 +107,13 @@ def get_donation_history(donor_id):
 
     return jsonify([
         {
+            'id': d.id,
+            'charity_id': d.charity_id, 
             'amount': d.amount,
             'date': d.date.isoformat(),
-            'charity': d.charity.full_name if d.charity else 'Unknown Charity',
             'anonymous': d.anonymous,
-            'frequency': d.frequency
+            'frequency': d.frequency,
+            'repeat_donation': d.repeat_donation,
+            'charity': d.charity.full_name if d.charity else 'Unknown Charity'
         } for d in donations
     ]), 200
