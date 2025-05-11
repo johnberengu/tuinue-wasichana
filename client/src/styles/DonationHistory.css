@@ -1,0 +1,109 @@
+
+.history-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.history-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.donation-table {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.donation-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.donation-table th {
+  background-color: #f5f7fa;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.donation-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #2d3748;
+}
+
+.donation-table tr:last-child td {
+  border-bottom: none;
+}
+
+.donation-table tr:hover {
+  background-color: #f9fafb;
+}
+
+.donation-table td:nth-child(2) {
+  font-weight: 600;
+  color: #38a169;
+}
+
+.donation-table td:nth-child(4) {
+  color: #3182ce;
+}
+
+.donation-table td:nth-child(4):contains('Recurring') {
+  color: #6b46c1;
+}
+
+.error {
+  color: #e53e3e;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .donation-table table {
+    font-size: 0.85rem;
+  }
+  
+  .donation-table th,
+  .donation-table td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .history-container h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .donation-table table {
+    font-size: 0.75rem;
+  }
+  
+  .donation-table th,
+  .donation-table td {
+    padding: 0.6rem 0.4rem;
+  }
+  
+  .history-container h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}

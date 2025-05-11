@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-// import "../../styles/DonationHistory.css";
+import "../../styles/DonationHistory.css";
 // import { apiFetch } from '../utils/api';
 
 const DonationHistory = () => {

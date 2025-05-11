@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-// import "../../styles/BeneficiaryStory.css";
+import "../../styles/BeneficiaryStory.css";
 
 const BeneficiaryStory = () => {
   const [charities, setCharities] = useState([]);
