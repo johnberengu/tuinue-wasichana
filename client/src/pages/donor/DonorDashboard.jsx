@@ -104,9 +104,6 @@ const DonorDashboard = () => {
             <button onClick={() => navigate(`/donor/${id}/beneficiary-stories`)} aria-label="Beneficiary Stories">
               Beneficiary Stories
             </button>
-            <button onClick={() => navigate(`/donor/${id}/payments`)} aria-label="Donations & Payments">
-              Donations & Payments
-            </button>
             <button onClick={() => navigate(`/donor/${id}/settings`)} aria-label="Settings">
               Settings
             </button>
