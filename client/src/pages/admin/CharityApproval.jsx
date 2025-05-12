@@ -8,7 +8,7 @@ const CharityApproval = () => {
 
   const fetchPendingCharities = async () => {
     try {
-      const response = await api.get("http://localhost:5000/charity/pending");
+      const response = await api.get("http://localhost:5000/admin/pending");
       setPendingCharities(response.data);
       setLoading(false);
     } catch (err) {
@@ -23,7 +23,7 @@ const CharityApproval = () => {
 
   const handleApprove = async (id) => {
     try {
-      await api.post(`http://localhost:5000/charity/${id}/approve`);
+      await api.post(`http://localhost:5000/admin/${id}/approve`);
       setPendingCharities((prev) => prev.filter((charity) => charity.id !== id));
     } catch (err) {
       setError("Failed to approve charity.");
@@ -32,7 +32,7 @@ const CharityApproval = () => {
 
   const handleDecline = async (id) => {
     try {
-      await api.post(`http://localhost:5000/charity/${id}/decline`);
+      await api.post(`http://localhost:5000/admin/${id}/decline`);
       setPendingCharities((prev) => prev.filter((charity) => charity.id !== id));
     } catch (err) {
       setError("Failed to decline charity.");

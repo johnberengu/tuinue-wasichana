@@ -22,25 +22,38 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Admin login check
+  
     if (formData.username === "admin" && formData.password === "admin") {
       dispatch(setUser({ username: "admin", role: "admin" }));
       navigate("/admin");
       return;
     }
-
+  
     try {
       const response = await api.post(
         "http://localhost:5000/auth/login",
         formData
       );
-      // Assuming response contains user role and token
+  
       const user = response.data;
       const { role } = user;
+  
+      // Check charity approval status
+      if (role === "charity") {
+        const approvalStatus = user.charity.application_status;
+  
+        if (approvalStatus === "pending") {
+          setMessage("Your charity application is still being processed.");
+          return;
+        } else if (approvalStatus === "declined") {
+          setMessage("Your charity application has been declined.");
+          return;
+        }
+      }
+  
       dispatch(setUser(user));
       localStorage.setItem("user", JSON.stringify(user));
-
+  
       if (role === "donor") {
         navigate(`/donor/${user.donor.id}`);
       } else if (role === "charity") {
@@ -54,6 +67,7 @@ const LoginForm = () => {
       setMessage("Login failed. Please check your credentials.");
     }
   };
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {

@@ -69,6 +69,8 @@ const CharityRegistration = () => {
     try {
       const data = new FormData();
       data.append("user_id", formData.username);
+      data.append("username", formData.username);
+      data.append("password", formData.password);
       data.append("name", formData.name);
       data.append("description", formData.description);
       data.append("email", formData.email);
@@ -78,7 +80,7 @@ const CharityRegistration = () => {
         data.append("logo", formData.logo);
       }
 
-      await api.post("http://localhost:5000/charities/apply", data, {
+      await api.post("http://localhost:5000/auth/apply", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
