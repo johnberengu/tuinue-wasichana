@@ -41,7 +41,9 @@ class Charity(db.Model):
             'email': self.email,
             'website_url': self.website_url,
             'image': self.image,
-            'total_donations': sum(d.amount for d in self.donations)
+            'total_donations': sum(d.amount for d in self.donations),
+            'approved': self.approved,
+            'application_status': self.application_status
         }
 
 

@@ -88,7 +88,7 @@ const DonorDashboard = () => {
     <div className="dashboard-container">
       <div className="dashboard-body">
         <aside className="sidebar">
-          <h2>Welcome, {user?.full_name}</h2>
+          <h2>Welcome {user?.full_name}</h2>
           <nav>
             <ul className="nav-links">
               <li>

@@ -51,7 +51,6 @@ export default function CharityDashboard() {
           <Link to={`/charity/${id}/stories`} className="nav-button">Stories</Link>
         </nav>
 
-        {/* Logout Button */}
         <button onClick={handleLogout} className="logout-button">Logout</button>
       </aside>
 
@@ -63,15 +62,15 @@ export default function CharityDashboard() {
         <section className="summary-cards">
           <div className="card">
             <h3>Donations</h3>
-            <p className="amount">KSh {(totalDonations - anonymousDonations).toLocaleString()}</p>
+            <p className="amount">$ {(totalDonations - anonymousDonations).toLocaleString()}</p>
           </div>
           <div className="card">
             <h3>Anonymous Donations</h3>
-            <p className="amount">KSh {anonymousDonations.toLocaleString()}</p>
+            <p className="amount">$ {anonymousDonations.toLocaleString()}</p>
           </div>
           <div className="card">
             <h3>Total Donations</h3>
-            <p className="amount">KSh {totalDonations.toLocaleString()}</p>
+            <p className="amount">$ {totalDonations.toLocaleString()}</p>
           </div>
         </section>
 
@@ -82,7 +81,7 @@ export default function CharityDashboard() {
               {donations.map((donation) => (
                 <li key={donation.id} className="donor-item">
                   <span>{donation.donor_name}</span>
-                  <span>KSh {donation.amount.toLocaleString()}</span>
+                  <span>$ {donation.amount.toLocaleString()}</span>
                 </li>
               ))}
             </ul>

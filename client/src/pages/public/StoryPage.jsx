@@ -8,7 +8,7 @@ const StoryPage = () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      fetch(`http://127.0.0.1:5000/charity/${id}/stories`)
+      fetch(`http://127.0.0.1:5000/stories`)
         .then((res) => res.json())
         .then((data) => {
           setStories(data);
@@ -23,7 +23,7 @@ const StoryPage = () => {
     if (loading) return <p className="loading-text">Loading stories...</p>;
   
     if (stories.length === 0) {
-      return <p className="no-stories">No stories have been posted for this charity yet.</p>;
+      return <p className="no-stories">No stories have been posted yet.</p>;
     }
   
     return (
@@ -34,6 +34,9 @@ const StoryPage = () => {
             <h3 className="story-title">{story.title}</h3>
             <p className="story-date">{new Date(story.date).toLocaleDateString()}</p>
             <p className="story-content">{story.content}</p>
+            {story.image_url && (
+            <img src={`http://127.0.0.1:5000${story.image_url}`} alt="Story visual" className="story-image" />
+          )}
             {/* <p className="story-charity"><strong>Charity:</strong> {story.charity_name}</p> */}
           </div>
         ))}

@@ -7,7 +7,7 @@ import os
 
 story_bp = Blueprint('story', __name__)
 
-@story_bp.route('/', methods=['GET'])
+@story_bp.route('/stories', methods=['GET'])
 def get_all_stories():
     stories = Story.query.all()
     return jsonify([story.to_dict() for story in stories]), 200

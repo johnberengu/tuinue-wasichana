@@ -30,7 +30,7 @@ const PublicRoutes = () => {
       <Route path="register/donor/:userType" element={<DonorRegistration />} />
       <Route path="reset-password" element={<ResetPassword />} />
       {/* <Route path="inventory" element={<InventoryPage charityId={1} />} /> */}
-      <Route path="charities/:id/stories" element={<StoryPage/>} />
+      <Route path="stories" element={<StoryPage/>} />
     </Routes>
   );
 };

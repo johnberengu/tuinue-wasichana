@@ -5,12 +5,11 @@ from app import db
 
 admin_bp = Blueprint('admin', __name__)
 
-# Get all pending applications
-@admin_bp.route('/applications/pending', methods=['GET'])
-@login_required
+@admin_bp.route('/pending', methods=['GET'])
+# @login_required
 def get_pending_applications():
-    if not current_user.is_admin:
-        return jsonify({'error': 'Unauthorized'}), 403
+    # if not current_user.is_admin:
+    #     return jsonify({'error': 'Unauthorized'}), 403
 
     pending = Charity.query.filter_by(application_status='pending').all()
     return jsonify([
@@ -25,12 +24,11 @@ def get_pending_applications():
     ]), 200
 
 
-# Approve a charity
-@admin_bp.route('/applications/<int:charity_id>/approve', methods=['POST'])
-@login_required
+@admin_bp.route('/<int:charity_id>/approve', methods=['POST'])
+# @login_required
 def approve_charity(charity_id):
-    if not current_user.is_admin:
-        return jsonify({'error': 'Unauthorized'}), 403
+    # if not current_user.is_admin:
+    #     return jsonify({'error': 'Unauthorized'}), 403
 
     charity = Charity.query.get(charity_id)
     if not charity:
@@ -43,12 +41,12 @@ def approve_charity(charity_id):
     return jsonify({'message': f'{charity.full_name} has been approved.'}), 200
 
 
-# Decline a charity
-@admin_bp.route('/applications/<int:charity_id>/decline', methods=['POST'])
-@login_required
+
+@admin_bp.route('/<int:charity_id>/decline', methods=['POST'])
+# @login_required
 def decline_charity(charity_id):
-    if not current_user.is_admin:
-        return jsonify({'error': 'Unauthorized'}), 403
+    # if not current_user.is_admin:
+    #     return jsonify({'error': 'Unauthorized'}), 403
 
     charity = Charity.query.get(charity_id)
     if not charity:
