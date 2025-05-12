@@ -5,7 +5,7 @@ import { SiThreads } from 'react-icons/si';
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-gray-800 py-4 text-white text-center z-50">
+    <footer className="left-0 w-full bg-gray-800 py-4 text-white text-center z-50">
     <div className="max-w-screen-lg mx-auto px-4 text-sm">
       <p className="mb-4">
         &copy; {new Date().getFullYear()} Tuinue Wasichana. All rights reserved.
