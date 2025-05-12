@@ -8,8 +8,7 @@ class Inventory(db.Model):
     quantity = db.Column(db.Integer, nullable=False)  
     beneficiary_name = db.Column(db.String(100), nullable=True)
 
-
-    beneficiary_id=db.Column(db.Integer, db.ForeignKey('beneficiary.id'), nullable=False)
+    beneficiary_id=db.Column(db.Integer, db.ForeignKey('beneficiary.id'), nullable=True)
     charity_id = db.Column(db.Integer, db.ForeignKey('charities.id'), nullable=False)
     
     charity = db.relationship('Charity', back_populates='inventory')

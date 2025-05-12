@@ -12,9 +12,13 @@ const InventoryPage = () => {
     item_name: "",
     quantity: "",
     beneficiary_id: "", 
+    beneficiary_id: "", 
   });
   const [editMode, setEditMode] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [beneficiaries, setBeneficiaries] = useState([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [beneficiaries, setBeneficiaries] = useState([]); 
@@ -22,6 +26,7 @@ const InventoryPage = () => {
   useEffect(() => {
     if (charityId) {
       fetchInventory();
+      fetchBeneficiaries();
       fetchBeneficiaries();
     }
   }, [charityId]);
@@ -49,7 +54,19 @@ const InventoryPage = () => {
     }
   };
 
+  const fetchBeneficiaries = async () => {
+    try {
+      const res = await axios.get(`/charities/${charityId}/beneficiaries`);
+      setBeneficiaries(res.data);
+    } catch (error) {
+      setError("Failed to fetch beneficiaries");
+      console.error("Failed to fetch beneficiaries", error);
+    }
+  };
+
   const handleAddOrUpdateItem = async () => {
+    if (!newItem.item_name || !newItem.quantity || !newItem.beneficiary_id) {
+      setError("Please provide item name, quantity, and select a beneficiary");
     if (!newItem.item_name || !newItem.quantity || !newItem.beneficiary_id) {
       setError("Please provide item name, quantity, and select a beneficiary");
       return;
@@ -92,6 +109,7 @@ try {
       item_name: item.item_name,
       quantity: item.quantity,
       beneficiary_id: item.beneficiary_id || "", 
+      beneficiary_id: item.beneficiary_id || "", 
     });
   };
 
@@ -122,7 +140,36 @@ try {
           <div>Status</div>
           <div>Action</div>
         </div>
+      <div className="inventory-table">
+        <div className="inventory-header">
+          <div>Item</div>
+          <div>Quantity</div>
+          <div>Status</div>
+          <div>Action</div>
+        </div>
 
+        {inventory.map((item) => (
+          <div key={item.id} className="inventory-row">
+            <div>{item.item_name}</div>
+            <div>{item.quantity}</div>
+            <div>{item.quantity > 0 ? "Delivered" : "Pending"}</div>
+            <div>
+              <button
+                className="edit-button"
+                onClick={() => handleEditItem(item)}
+              >
+                Edit
+              </button>
+              <button
+                className="delete-button"
+                onClick={() => handleDeleteItem(item.id)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
         {inventory.map((item) => (
           <div key={item.id} className="inventory-row">
             <div>{item.item_name}</div>
