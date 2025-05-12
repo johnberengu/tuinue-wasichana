@@ -8,24 +8,23 @@ from app import db
 
 charity_bp = Blueprint('charity', __name__)
 
-@charity_bp.route('/apply', methods=['POST'])
-# @jwt_required()
-def apply_charity():
-    user_id = request.json.get('user_id')
-    user = User.query.get(user_id)
-    if not user or user.role != 'charity':
-        return jsonify({'error': 'Only charities can apply'}), 403
-    data = request.get_json()
-    charity = Charity.query.filter_by(user_id=user_id).first()
-    if not charity:
-        return jsonify({'error': 'Charity profile not found'}), 404
-    if charity.application_status != 'pending':
-        return jsonify({'error': 'Application already submitted or processed'}), 400
-    charity.name = data.get('name', charity.name)
-    charity.description = data.get('description', charity.description)
-    charity.application_status = 'pending'
-    db.session.commit()
-    return jsonify({'message': 'Application submitted successfully'}), 200
+# @charity_bp.route('/apply', methods=['POST'])
+# def apply_charity():
+#     user_id = request.json.get('user_id')
+#     user = User.query.get(user_id)
+#     if not user or user.role != 'charity':
+#         return jsonify({'error': 'Only charities can apply'}), 403
+#     data = request.get_json()
+#     charity = Charity.query.filter_by(user_id=user_id).first()
+#     if not charity:
+#         return jsonify({'error': 'Charity profile not found'}), 404
+#     if charity.application_status != 'pending':
+#         return jsonify({'error': 'Application already submitted or processed'}), 400
+#     charity.name = data.get('name', charity.name)
+#     charity.description = data.get('description', charity.description)
+#     charity.application_status = 'pending'
+#     db.session.commit()
+#     return jsonify({'message': 'Application submitted successfully'}), 200
 
 @charity_bp.route('/', methods=['GET'])
 def get_all_charities():

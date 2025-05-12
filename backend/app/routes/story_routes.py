@@ -1,12 +1,16 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from app.models.story import Story
 from app import db
-# from . import db
-
-
+from werkzeug.utils import secure_filename
+import os
 
 
 story_bp = Blueprint('story', __name__)
+
+@story_bp.route('/stories', methods=['GET'])
+def get_all_stories():
+    stories = Story.query.all()
+    return jsonify([story.to_dict() for story in stories]), 200
 
 @story_bp.route('/charity/<int:charity_id>/stories', methods=['GET'])
 def get_stories(charity_id):
@@ -20,18 +24,31 @@ def get_story(story_id):
 
 @story_bp.route('/charity/<int:charity_id>/stories', methods=['POST'])
 def create_story(charity_id):
-    data = request.get_json()
-
-    # Optional: validate required fields
-    title = data.get('title')
-    content = data.get('content')
+    title = request.form.get('title')
+    content = request.form.get('content')
+    image_url = request.form.get('image_url')
+    image_file = request.files.get('image')
+    
     if not title or not content:
         return jsonify({'error': 'Title and content are required'}), 400
+
+    final_image_url = image_url
+
+    if image_file:
+        upload_folder = os.path.join(current_app.static_folder, 'uploads')
+        os.makedirs(upload_folder, exist_ok=True)
+        filename = secure_filename(image_file.filename)
+        file_path = os.path.join(upload_folder, filename)
+        image_file.save(file_path)
+        final_image_url = f"/static/uploads/{filename}"
+    
+    print("Saved image to:", file_path)
 
     new_story = Story(
         title=title,
         content=content,
-        charity_id=charity_id
+        charity_id=charity_id,
+        image = final_image_url
     )
     db.session.add(new_story)
     db.session.commit()
@@ -50,8 +67,8 @@ def update_story(story_id):
     return jsonify(story.to_dict()), 200
 
 @story_bp.route('/charity/<int:charity_id>/stories/<int:story_id>', methods=['DELETE'])
-def delete_story(story_id):
-    story = Story.query.get_or_404(story_id)
+def delete_story(charity_id, story_id):
+    story = Story.query.filter_by(id=story_id, charity_id=charity_id).first_or_404()
     db.session.delete(story)
     db.session.commit()
     return jsonify({'message': 'Story deleted'}), 200

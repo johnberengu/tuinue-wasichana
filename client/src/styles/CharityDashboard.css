@@ -29,7 +29,7 @@ body {
   }
 
   .nav-button {
-    background-color: #6b21a8;
+    background-color: #445d82;
     color: white;
     text-align: center;
     padding: 12px;
@@ -40,6 +40,15 @@ body {
   }
 
   .nav-button:hover {
+    background: #ed8e4e;
+    color: white;
+  }
+
+  .logout-button {
+    background-color: #445d82;
+  }
+
+  .logout-button:hover {
     background-color: #5b1a91;
   }
 

@@ -1,7 +1,9 @@
-from flask import Blueprint, jsonify, render_template, redirect, url_for, flash, request
+from flask import Blueprint, jsonify, render_template, redirect, url_for, flash, request, current_app
 from flask_login import login_user, logout_user, current_user, login_required
 from app import db, bcrypt
 from app.models import User, Donor, Charity
+from werkzeug.utils import secure_filename
+import os
 # from app.models.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm
 # from app.utils import send_reset_email
 import logging
@@ -64,21 +66,72 @@ def register_donor():
         logger.error(f"Registration error: {e}")
         return jsonify({"message": "Registration failed"}), 500
     
-@auth_bp.route('/register_charity', methods=['POST'])
-def register_charity():
+# @auth_bp.route('/register_charity', methods=['POST'])
+# def register_charity():
+#     if current_user.is_authenticated:
+#         return jsonify({"message": "Already logged in"}), 400
+
+#     data = request.get_json()
+#     if not data:
+#         return jsonify({"message": "Missing JSON data"}), 400
+
+#     # Extract fields
+#     username = data.get('username')
+#     email = data.get('email')
+#     password = data.get('password')
+#     name = data.get('name')
+#     phone = data.get('phone')
+
+#     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+#     new_user = User(
+#         username=username,
+#         email=email,
+#         password=hashed_password,
+#         contact=phone,
+#         full_name=name,
+#         role="charity"  # Since role column is set to default "donor" value 
+#     )
+#     db.session.add(new_user)
+#     db.session.flush()
+
+#     charity = Charity(
+#         user_id=new_user.id,
+#         full_name=new_user.full_name,
+#         email=new_user.email,
+#         password_hash=new_user.password,  
+#         contact=new_user.contact
+#         )
+    
+#     db.session.add(charity)
+
+#     db.session.commit()
+
+#     return jsonify({"message": "Charity account created successfully"}), 201
+
+
+@auth_bp.route('/apply', methods=['POST'])
+def register_and_apply_charity():
     if current_user.is_authenticated:
         return jsonify({"message": "Already logged in"}), 400
 
-    data = request.get_json()
-    if not data:
-        return jsonify({"message": "Missing JSON data"}), 400
+    data = request.form
+    logo = request.files.get('logo') 
 
-    # Extract fields
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
     name = data.get('name')
     phone = data.get('phone')
+    description = data.get('description')
+
+    image_path = None
+    if logo and logo.filename:
+        filename = secure_filename(logo.filename)
+        image_path = os.path.join('static/uploads', filename)
+        abs_image_path = os.path.join(current_app.root_path, image_path)
+        os.makedirs(os.path.dirname(abs_image_path), exist_ok=True)
+        logo.save(abs_image_path)
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -88,24 +141,26 @@ def register_charity():
         password=hashed_password,
         contact=phone,
         full_name=name,
-        role="charity"  # Since role column is set to default "donor" value 
+        role="charity"
     )
     db.session.add(new_user)
     db.session.flush()
 
-    charity = Charity(
+    new_charity = Charity(
         user_id=new_user.id,
-        full_name=new_user.full_name,
-        email=new_user.email,
-        password_hash=new_user.password,  
-        contact=new_user.contact
-        )
-    
-    db.session.add(charity)
-
+        full_name=name,
+        email=email,
+        password_hash=hashed_password,
+        contact=phone,
+        description=description,
+        image=image_path,
+        application_status='pending'
+    )
+    db.session.add(new_charity)
     db.session.commit()
 
-    return jsonify({"message": "Charity account created successfully"}), 201
+    return jsonify({"message": "Charity registered and application submitted"}), 201
+
 
 @auth_bp.route('/check-username/<username>', methods=['GET'])
 def check_username(username):
@@ -130,17 +185,37 @@ def login():
     if user and bcrypt.check_password_hash(user.password, password):
         login_user(user)
         logger.info(f"User logged in: {user.email}")
-        return jsonify({
-            'message': 'Login successful',
-            'username': user.username,
-            'email': user.email,
-            'role': user.role,  
-            'id': user.id, 
-            'donor': {"id": user.donor.id} if user.donor else None,
-            'charity': {"id": user.charity.id} if user.charity else None
-            }), 200
+        user_data = {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "role": user.role
+        }
+
+        if user.role == "charity" and user.charity:
+            charity = user.charity
+            user_data["charity"] = {
+                "id": charity.id,
+                "application_status": getattr(charity, "application_status", None),
+                "approved": getattr(charity, "approved", None),
+                "full_name": getattr(charity, "full_name", None),
+                "email": getattr(charity, "email", None),
+                "contact": getattr(charity, "phone", None)
+            }
+
+        elif user.role == "donor" and user.donor:
+            donor = user.donor
+            user_data["donor"] = {
+                "id": donor.id,
+                "full_name": getattr(donor, "full_name", None),
+                "email": getattr(donor, "email", None),
+                "contact": getattr(donor, "phone", None)
+            }
+
+        return jsonify(user_data), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401
+
 
 
 @auth_bp.route('/logout', methods=['POST'])

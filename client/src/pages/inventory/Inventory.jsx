@@ -55,34 +55,34 @@ const InventoryPage = () => {
       return;
     }
 
-    setLoading(true);
-    try {
-      if (editMode) {
-        await axios.put(
-          `/charities/${charityId}/inventory/${editingId}`,
-          {
-            ...newItem,
-            quantity: parseInt(newItem.quantity),
-          }
-        );
-      } else {
-        await axios.post(`/charities/${charityId}/inventory`, {
-          ...newItem,
-          quantity: parseInt(newItem.quantity),
-        });
+setLoading(true);
+try {
+  if (editMode) {
+    await axios.put(
+      `/charities/${charityId}/inventory/${editingId}`,
+      {
+        ...newItem,
+        quantity: parseInt(newItem.quantity),
       }
+    );
+  } else {
+    await axios.post(`/charities/${charityId}/inventory`, {
+      ...newItem,
+      quantity: parseInt(newItem.quantity),
+    });
+  }
 
-      fetchInventory();
-      setNewItem({ item_name: "", quantity: "", beneficiary_id: "" });
-      setEditMode(false);
-      setEditingId(null);
-      setError(null);
-    } catch (error) {
-      setError(editMode ? "Update failed" : "Add item failed");
-      console.error(editMode ? "Update failed" : "Add item failed", error);
-    } finally {
-      setLoading(false);
-    }
+  fetchInventory();
+  setNewItem({ item_name: "", quantity: "", beneficiary_id: "" });
+  setEditMode(false);
+  setEditingId(null);
+  setError(null);
+} catch (error) {
+  setError(editMode ? "Update failed" : "Add item failed");
+  console.error(editMode ? "Update failed" : "Add item failed", error);
+} finally {
+  setLoading(false);
+}
   };
 
   const handleEditItem = (item) => {
@@ -112,8 +112,8 @@ const InventoryPage = () => {
     <div className="inventory-container">
       <h2 className="inventory-title">Inventory Page</h2>
 
-      {error && <div className="error-message">{error}</div>}
-      {loading && <div className="loading-message">Loading...</div>}
+  {error && <div className="error-message">{error}</div>}
+  {loading && <div className="loading-message">Loading...</div>}
 
       <div className="inventory-table">
         <div className="inventory-header">
@@ -146,46 +146,46 @@ const InventoryPage = () => {
         ))}
       </div>
 
-      <div className="input-section">
-        <input
-          type="text"
-          placeholder="Item Name"
-          className="input-field"
-          value={newItem.item_name}
-          onChange={(e) =>
-            setNewItem({ ...newItem, item_name: e.target.value })
-          }
-        />
-        <input
-          type="number"
-          placeholder="Quantity"
-          className="input-field"
-          value={newItem.quantity}
-          onChange={(e) =>
-            setNewItem({ ...newItem, quantity: e.target.value })
-          }
-        />
-        <select
-          className="input-field"
-          value={newItem.beneficiary_id}
-          onChange={(e) =>
-            setNewItem({ ...newItem, beneficiary_id: e.target.value })
-          }
-        >
-          <option value="">Select Beneficiary</option>
-          {beneficiaries.map((beneficiary) => (
-            <option key={beneficiary.id} value={beneficiary.id}>
-              {beneficiary.name}
-            </option>
-          ))}
-        </select>
-        <div className="button-group">
-          <button className="action-button" onClick={handleAddOrUpdateItem}>
-            {editMode ? "Update Item" : "Add Item"}
-          </button>
-        </div>
-      </div>
+  <div className="input-section">
+    <input
+      type="text"
+      placeholder="Item Name"
+      className="input-field"
+      value={newItem.item_name}
+      onChange={(e) =>
+        setNewItem({ ...newItem, item_name: e.target.value })
+      }
+    />
+    <input
+      type="number"
+      placeholder="Quantity"
+      className="input-field"
+      value={newItem.quantity}
+      onChange={(e) =>
+        setNewItem({ ...newItem, quantity: e.target.value })
+      }
+    />
+    <select
+      className="input-field"
+      value={newItem.beneficiary_id}
+      onChange={(e) =>
+        setNewItem({ ...newItem, beneficiary_id: e.target.value })
+      }
+    >
+      <option value="">Select Beneficiary</option>
+      {beneficiaries.map((beneficiary) => (
+        <option key={beneficiary.id} value={beneficiary.id}>
+          {beneficiary.name}
+        </option>
+      ))}
+    </select>
+    <div className="button-group">
+      <button className="action-button" onClick={handleAddOrUpdateItem}>
+        {editMode ? "Update Item" : "Add Item"}
+      </button>
     </div>
+  </div>
+</div>
   );
 };
 
