@@ -56,3 +56,14 @@ def decline_charity(charity_id):
     db.session.commit()
 
     return jsonify({'message': f'{charity.full_name} has been declined.'}), 200
+
+@admin_bp.route('/<int:charity_id>/delete', methods=['DELETE'])
+def delete_charity(charity_id):
+    charity = Charity.query.get(charity_id)
+
+    if not charity:
+        return jsonify({'error': 'Charity not found'}), 404
+    
+    db.session.delete(charity)
+    db.session.commit()
+    return jsonify({'message': f'{charity.full_name} has been deleted'})

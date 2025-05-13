@@ -126,10 +126,10 @@ const CharityRegistration = () => {
       <div className="w-1/2 flex justify-center items-center bg-blue-100">
         <div
           className="bg-white shadow-md rounded-lg p-10 w-full flex flex-col items-center text-center"
-          style={{ maxWidth: "700px", minHeight: "700px" }}
+          style={{ maxWidth: "700px", minHeight: "100px" }}
         >
           <h3 className="text-2xl font-semibold text-gray-900 mb-2 text-center">
-            Apply to create a Charity Account
+            Apply to Become a Charity
           </h3>
           <p className="text-gray-600 text-sm mb-6 text-left">
             Enter your details below to apply for charity account approval

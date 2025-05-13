@@ -10,7 +10,10 @@ const CharityCard = ({ charity, handleDonateClick, toggleFavorite, favorited }) 
 
   return (
     <div className="card">
-      <img className="card-img" alt="charity" src={charity.image} />
+      <img className="card-img" alt="charity" src={
+    charity.image.startsWith("http")
+      ? charity.image
+      : `http://127.0.0.1:5000/${charity.image}`} />
       <div className="card-content">
         <h3>{charity.full_name}</h3>
         <p className="card-description">{charity.description || 'No description available.'}</p>

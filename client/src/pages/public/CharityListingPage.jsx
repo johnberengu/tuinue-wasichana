@@ -23,7 +23,10 @@ function CharityCard({charity}){
 
     return(
     <div className="menu-card">
-      <img className="item-image" alt="charity" src={charity.image} />
+      <img className="item-image" alt="charity" src={
+    charity.image.startsWith("http")
+      ? charity.image
+      : `http://127.0.0.1:5000/${charity.image}`} />
       <h2 className="item-title">{charity.full_name}</h2>
       <div className="card-buttons">
         <button className="donate" onClick={() => navigate(`/donate/${charity.id}`)}><p>Donate</p></button>

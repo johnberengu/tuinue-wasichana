@@ -38,7 +38,7 @@ const App = () => {
       }}
     >
       <Router>
-        <div className="app-container">
+        <div className="flex flex-col min-h screen">
           <Navbar />
           <main className="app-main">
             <Routes>

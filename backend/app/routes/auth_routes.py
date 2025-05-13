@@ -128,7 +128,7 @@ def register_and_apply_charity():
     image_path = None
     if logo and logo.filename:
         filename = secure_filename(logo.filename)
-        image_path = os.path.join('static/uploads', filename)
+        image_path = os.path.join('uploads', filename)
         abs_image_path = os.path.join(current_app.root_path, image_path)
         os.makedirs(os.path.dirname(abs_image_path), exist_ok=True)
         logo.save(abs_image_path)

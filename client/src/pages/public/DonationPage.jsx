@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams } from "react-router-dom";
 import "../../styles/DonationPage.css";
+import paypalLogo from "../../assets/paypal_888870.png";
 
 const DonationPage = () => {
   const [amount, setAmount] = useState("");
@@ -46,9 +47,7 @@ const DonationPage = () => {
     <section className="donation-container">
       <div className="donation-left">
         <img
-          src="src/assets/paypal_888870.png"
-          alt="PayPal Logo"
-          className="paypal-logo"
+          src={paypalLogo} alt="PayPal Logo" className="paypal-logo"
         />
       </div>
 

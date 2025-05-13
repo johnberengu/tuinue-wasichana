@@ -26,8 +26,6 @@ export default function CharityDashboard() {
   }, [id]);
 
   const handleLogout = () => {
-    // localStorage.clear();
-    // navigate("/login");
 
     dispatch(setUser(null));
     localStorage.removeItem('user');

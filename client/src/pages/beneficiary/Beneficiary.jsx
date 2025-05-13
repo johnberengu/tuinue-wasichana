@@ -20,7 +20,7 @@ function BeneficiariesPage() {
 
   const handleAddBeneficiary = () => {
     const newBeneficiary = { name, location, number_of_people };
-    axios.post(`http://localhost:5000/charities/${charityId}/beneficiaries, newBeneficiary`)
+    axios.post(`http://localhost:5000/charities/${charityId}/beneficiaries`, newBeneficiary)
       .then(response => {
         setBeneficiaries([...beneficiaries, response.data]);
         setName('');

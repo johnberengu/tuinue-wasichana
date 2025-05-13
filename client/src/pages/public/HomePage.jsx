@@ -78,7 +78,7 @@ const HomePage = () => {
                 onClick={() => setShowDropdown(!showDropdown)}
                 className="bg-white hover:bg-gray-200 text-gray-900 px-5 py-3 rounded-md font-semibold shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all flex items-center"
               >
-                Commence Registration
+                Register
               </button>
               {showDropdown && (
                 <div
@@ -291,7 +291,7 @@ const HomePage = () => {
                 onClick={() => navigate("/about")}
                 className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md font-semibold shadow-lg focus:outline-none focus:ring-2 focus:ring-red-300"
               >
-                Know About Us
+                Know More About Us
               </button>
             </div>
           </div>
