@@ -12,7 +12,7 @@ class Charity(db.Model):
     full_name = db.Column(db.String(150), nullable=False)
     contact = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=True)
     description = db.Column(db.Text, nullable=True)
     website_url = db.Column(db.String, nullable=True)
     image = db.Column(db.String, nullable=True)
@@ -25,10 +25,9 @@ class Charity(db.Model):
     donations = db.relationship('Donation', back_populates='charity', cascade='all, delete-orphan')
     stories = db.relationship('Story', back_populates='charity', cascade="all, delete-orphan")
     inventory = db.relationship('Inventory', back_populates='charity', cascade="all, delete-orphan")
+    beneficiary = db.relationship('Beneficiary', back_populates='charity', cascade="all, delete-orphan")
     donors = db.relationship('Donor', secondary='donations', back_populates='charities_donated_to', overlaps="donations,donor")
     beneficiaries = db.relationship("Beneficiary", back_populates="charity")
-
-
 
     def __repr__(self):
         return f'<Charity {self.full_name}>'

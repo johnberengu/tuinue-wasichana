@@ -63,3 +63,12 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+
+
+
+
+// npm install @paypal/react-paypal-js

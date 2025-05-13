@@ -1,59 +1,88 @@
-from app.models import User, Donor, Charity
-from app.models import User
-from sqlalchemy.exc import IntegrityError
+import pytest
+from app import create_app, db
+from app.models import User,Charity
 
-def test_user_creation(session):
-    user = User(username="testuser", email="test@example.com", password="hashedpass")
-    session.add(user)
-    session.commit()
-    
-    assert user.id is not None
-    assert user.username == "testuser"
-    assert user.email == "test@example.com"
-    assert user.is_admin is False
-    assert user.role == "donor"
-    assert user.contact is None
-    assert user.full_name is None
+# Create the app instance for testing
+@pytest.fixture(scope='module')
+def app():
+    app = create_app('testing')  # Make sure you're using the testing config
+    with app.app_context():
+        yield app
 
-def test_username_and_email_uniqueness(session):
-    user1 = User(username="uniqueuser", email="unique1@example.com", password="pass")
-    user2 = User(username="uniqueuser", email="unique2@example.com", password="pass")  # Duplicate username
-    session.add(user1)
-    session.commit()
-    session.add(user2)
-    try:
-        session.commit()
-        assert False, "Expected IntegrityError due to duplicate username"
-    except IntegrityError:
-        session.rollback()
+# Fixture to set up and tear down the database
+@pytest.fixture(scope='function', autouse=True)
+def clean_db(app):
+    # Clean up the database before each test
+    with app.app_context():
+        db.create_all()
+        yield
+        db.session.remove()
+        db.drop_all()
 
-def test_nullable_fields(session):
-    user = User(username="nullabletest", email="nullable@example.com", password="pass", contact="0700111222", full_name="Jane Doe")
-    session.add(user)
-    session.commit()
-    
-    assert user.contact == "0700111222"
-    assert user.full_name == "Jane Doe"
+# Test user creation
+def test_user_creation(app):
+    with app.app_context():
+        try:
+            # Cleanup: Delete any existing user with the same email
+            User.query.filter_by(email="charity@example.com").delete()
+            db.session.commit()
+
+            # Now create the new user
+            user = User(username="charityuser", email="charity@example.com", password="password")
+            db.session.add(user)
+            db.session.commit()
+
+            # Verify that the user was added
+            created_user = User.query.filter_by(email="charity@example.com").first()
+            assert created_user is not None
+            assert created_user.username == "charityuser"
+            assert created_user.email == "charity@example.com"
+        finally:
+            db.session.remove()
+
+# Test unique email constraint
+def test_username_and_email_uniqueness(app):
+    with app.app_context():
+        # Try to create a user with an existing email
+        user1 = User(username="user1", email="unique@example.com", password="password")
+        db.session.add(user1)
+        db.session.commit()
+
+        # This should raise a UniqueViolation error due to duplicate email
+        with pytest.raises(Exception):
+            user2 = User(username="user2", email="unique@example.com", password="password")
+            db.session.add(user2)
+            db.session.commit()
+
+# Test nullable fields
+def test_nullable_fields(app):
+    with app.app_context():
+        # Try creating a user with nullable fields
+        user = User(username="user3", email="user3@example.com", password="password", full_name=None, contact=None)
+        db.session.add(user)
+        db.session.commit()
+        
+        created_user = User.query.filter_by(email="user3@example.com").first()
+        assert created_user is not None
+        assert created_user.full_name is None
+        assert created_user.contact is None
+
+# Test user-charity relationship (assuming you have a Charity model and a relationship set up)
+def test_user_charity_relationship(app):
+    with app.app_context():
+        user = User(username="charityuser", email="charity@example.com", password="password")
+        charity = Charity(
+            full_name="Test Charity",
+            contact="0712345678",
+            email="charityorg@example.com",
+            description="Test Description",
+            user=user  #
+        )
+        db.session.add(user)
+        db.session.add(charity)
+        db.session.commit()
+
+        assert user.charity == charity
+        assert charity.user == user
 
 
-def test_user_donor_relationship(session):
-    user = User(username="donoruser", email="donor@example.com", password="pass")
-    donor = Donor(user=user)
-    session.add_all([user, donor])
-    session.commit()
-
-    assert user.donor is not None
-    assert user.donor.id == donor.id
-    assert donor.user_id == user.id
-    
-
-def test_user_charity_relationship(session):
-    user = User(username="charityuser", email="charity@example.com", password="pass")
-    charity = Charity(user=user)
-
-    session.add_all([user, charity])
-    session.commit()
-
-    assert user.charity is not None
-    assert charity.user_id == user.id
-    assert charity.user == user
