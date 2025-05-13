@@ -98,10 +98,7 @@ const BeneficiaryStory = () => {
                 </li>
               ))
             ) : (
-              <li key={charity.id}>
-                <h3>{charity.name}</h3>
-                <p>No stories available for this charity.</p>
-              </li>
+                <p>.</p>
             )
           )}
         </ul>

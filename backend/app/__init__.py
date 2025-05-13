@@ -18,6 +18,7 @@ from .routes.auth_routes import auth_bp
 from .routes.donor_routes import donor_bp
 from .routes.inventory_routes import inventory_bp
 from .routes.beneficiary_routes import beneficiary_bp
+from .routes.admin_routes import admin_bp
 
 
 from .models import Donor, Donation, User, Charity, Story, Inventory
@@ -25,7 +26,7 @@ from .models import Donor, Donation, User, Charity, Story, Inventory
 migrate = Migrate()
 
 def create_app(config_class=None):
-    app = Flask(__name__, static_folder='static', static_url_path='')
+    app = Flask(__name__, static_folder='static', static_url_path='/static')
 
     
     if os.environ.get('FLASK_ENV') == 'testing':

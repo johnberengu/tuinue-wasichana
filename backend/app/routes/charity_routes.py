@@ -157,3 +157,20 @@ def get_charity_donations(charity_id):
         'donations': donations
     })
 
+@charity_bp.route('/<int:id>', methods=['DELETE'])
+def delete_charity(id):
+    charity = Charity.query.get(id)
+    if not charity:
+        return jsonify({"error": "Charity not found"}), 404
+    try:
+        # Also delete associated user
+        user = User.query.get(charity.user_id)
+        if user:
+            db.session.delete(user)
+        db.session.delete(charity)
+        db.session.commit()
+        return jsonify({"message": "Charity deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+

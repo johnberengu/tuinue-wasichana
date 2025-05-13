@@ -29,7 +29,7 @@ function CharityCard({charity}){
       : `http://127.0.0.1:5000/${charity.image}`} />
       <h2 className="item-title">{charity.full_name}</h2>
       <div className="card-buttons">
-        <button className="donate" onClick={() => navigate(`/donate/${charity.id}`)}><p>Donate</p></button>
+        <button className="donate" onClick={() => navigate('/donate/:id')}><p>Donate</p></button>
         <button className="view" onClick={() => navigate(`/charity-details/${charity.id}/`)}>View</button>
         <button className="favorite" onClick={() => toggleFavorite(charity)}>
           {favorited ? <AiFillHeart color="red" /> : <AiOutlineHeart />}

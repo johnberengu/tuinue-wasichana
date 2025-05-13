@@ -76,21 +76,13 @@ textarea:focus {
 
 .nav-link.active {
   color: white; 
-  background:#445d82;  ;
+  background:#445d82;
   position: relative;
 }
 
-.nav-link.active::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background: #FFA366;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-  transition: all 0.3s ease;
+.nav-link:hover {
+  background: #ed8e4e;
+  color: white;
 }
 
 /* Main content */
@@ -109,7 +101,7 @@ textarea:focus {
   font-size: 24px;
   color: #222;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 30px; 
 }
 
 /* Tabs */
@@ -342,4 +334,4 @@ textarea:focus {
     width: 16px;
     height: 16px;
   }
-}
+}    

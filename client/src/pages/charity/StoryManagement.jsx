@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDropzone } from 'react-dropzone';
-import "../../styles/StoryManagement.css";
+import '../../styles/StoryManagement.css';
+
+const Modal = ({ message, onClose }) => (
+  <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full text-center">
+      <p className="text-gray-800 mb-4">{message}</p>
+      <button
+        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        onClick={onClose}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+);
 
 const StoryPage = () => {
   const { id } = useParams();
@@ -36,7 +49,11 @@ const StoryPage = () => {
           <p className="story-date">{new Date(story.date).toLocaleDateString()}</p>
           <p className="story-content">{story.content}</p>
           {story.image_url && (
-            <img src={`http://127.0.0.1:5000${story.image_url}`} alt="Story visual" className="story-image" />
+            <img
+              src={`http://127.0.0.1:5000${story.image_url}`}
+              alt="Story visual"
+              className="story-image"
+            />
           )}
         </div>
       ))}
@@ -50,6 +67,7 @@ const StoryManagement = () => {
   const [imageURL, setImageURL] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [modalMessage, setModalMessage] = useState('');
   const { id } = useParams();
 
   const handleImageChange = (e) => {
@@ -68,31 +86,32 @@ const StoryManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-    if (imageFile) {
-      formData.append("image", imageFile);
-    } else if (imageURL) {
-      formData.append("image_url", imageURL);
-    }
+const formData = new FormData();
+formData.append('title', title);
+formData.append('content', content);
+if (imageFile) {
+  formData.append('image', imageFile);
+} else if (imageURL) {
+  formData.append('image_url', imageURL);
+}
 
-    try {
-      const res = await fetch(`http://127.0.0.1:5000/charity/${id}/stories`, {
-        method: 'POST',
-        body: formData,
-      });
+try {
+  const res = await fetch(`http://127.0.0.1:5000/charity/${id}/stories`, {
+    method: 'POST',
+    body: formData,
+  });
 
-      if (!res.ok) throw new Error('Failed to post story');
-      alert('Story posted successfully!');
-      setTitle('');
-      setContent('');
-      setImageFile(null);
-      setImageURL('');
-      setPreview(null);
-    } catch (err) {
-      alert('Error posting story: ' + err.message);
-    }
+  if (!res.ok) throw new Error('Failed to post story');
+
+  setModalMessage('Story posted successfully!');
+  setTitle('');
+  setContent('');
+  setImageFile(null);
+  setImageURL('');
+  setPreview(null);
+} catch (err) {
+  setModalMessage('Error posting story: ' + err.message);
+}
   };
 
   return (
@@ -121,13 +140,27 @@ const StoryManagement = () => {
             accept="image/*"
             onChange={handleImageChange}
           />
+          <input
+            type="text"
+            value={imageURL}
+            onChange={handleImageURL}
+            placeholder="Or paste an image URL"
+            className="mt-2"
+          />
           {preview && (
             <img src={preview} alt="Preview" className="story-image" />
           )}
           <button type="submit">Post Story</button>
         </form>
       </div>
-    </div>
+
+  {modalMessage && (
+    <Modal
+      message={modalMessage}
+      onClose={() => setModalMessage('')}
+    />
+  )}
+</div>
   );
 };
 

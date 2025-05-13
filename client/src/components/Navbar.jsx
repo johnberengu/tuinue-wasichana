@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../../src/assets/logo.svg";
-import HerFutureLogo from "../../src/assets/herfuture.png";
+// import HerFutureLogo from "../../src/assets/herfuture.png";
 
 const Navbar = () => {
   return (
@@ -13,12 +13,12 @@ const Navbar = () => {
         style={{ height: "100%", marginLeft: "4rem" }}
       >
         <div className="flex items-center">
-          <img
+          {/* <img
             src={HerFutureLogo}
             alt="Her Future Logo"
             className="mr-2"
             style={{ height: "100px", width: "100px", marginRight: "2rem" }}
-          />
+          /> */}
           <img
             src={Logo}
             alt="Tuinue Wasichana Logo"

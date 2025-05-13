@@ -179,9 +179,9 @@ const LoginForm = () => {
           >
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-md font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-green-300 transition-all flex items-center justify-center w-full"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-md font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-green-300 transition-all flex items-center justify-center w-full"
             >
-              Commence Registration
+              Register
             </button>
             {showDropdown && (
               <div
@@ -298,12 +298,12 @@ const LoginForm = () => {
                 justifyContent: "center",
               }}
             ></div>
-            <button
+            {/* <button
               onClick={() => navigate("/reset-password")}
               className="bg-yellow-600 text-white py-2 rounded-md font-semibold hover:bg-yellow-700 transition font-sans w-full"
             >
               Forget Password
-            </button>
+            </button> */}
           </div>
           {message && (
             <p className="mt-4 text-red-600 text-center font-sans">{message}</p>

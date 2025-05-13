@@ -67,7 +67,7 @@ const HomePage = () => {
           <div className="flex gap-4 flex-wrap justify-center">
             <button
               onClick={handleVolunteerClick}
-              className="bg-white hover:bg-gray-200 text-gray-900 px-5 py-3 rounded-md font-semibold shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all flex items-center"
+              className="bg-blue-400 hover:bg-blue-600 text-gray-900 px-5 py-3 rounded-md font-semibold shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all flex items-center"
             >
               Log in
             </button>
@@ -76,7 +76,7 @@ const HomePage = () => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setShowDropdown(!showDropdown)}
-                className="bg-white hover:bg-gray-200 text-gray-900 px-5 py-3 rounded-md font-semibold shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all flex items-center"
+                className="bg-blue-400 hover:bg-blue-600 text-gray-900 px-5 py-3 rounded-md font-semibold shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all flex items-center"
               >
                 Register
               </button>
@@ -334,7 +334,7 @@ const HomePage = () => {
           ))}
         </div>
       </section>
-      {/* CONTACT SECTION */}
+      {/* CONTACT SECTION
       <section className="py-12 bg-blue-100 text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Connect With Us
@@ -386,7 +386,7 @@ const HomePage = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };
