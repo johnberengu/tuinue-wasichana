@@ -24,7 +24,7 @@ const DonationPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          charity_id: parseInt(charityId), 
+          charity_id: parseInt(id), 
           amount: parseFloat(amount),
         }),
       });
