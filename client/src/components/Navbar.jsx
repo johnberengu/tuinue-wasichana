@@ -5,7 +5,7 @@ import HerFutureLogo from "../../src/assets/herfuture.png";
 const Navbar = () => {
   return (
     <header
-      className="shadow-md py-4"
+      className="shadow-md py-4 relative z-50"
       style={{ height: "140px", backgroundColor: "#f0f0f0" }}
     >
       <div

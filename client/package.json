@@ -45,13 +45,7 @@
     "postcss": "^8.5.3",
     "redux-mock-store": "^1.5.5",
     "sass-embedded": "^1.87.0",
-<<<<<<< HEAD
     "tailwindcss": "^3.4.17",
     "vite": "^6.3.1"
-=======
-    "tailwindcss": "^4.1.4",
-    "vite": "^6.3.1",
-    "vitest": "^3.1.3"
->>>>>>> main
   }
 }

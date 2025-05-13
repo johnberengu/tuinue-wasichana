@@ -1,0 +1,35 @@
+# === Node.js / React ===
+node_modules/
+build/
+dist/
+
+# === Python ===
+*.pyc
+__pycache__/
+instance/
+.env
+
+# === Flask / SQLAlchemy ===
+migrations/
+
+# === VSCode / Editor / OS Files ===
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+
+# === Coverage / Testing ===
+htmlcov/
+.coverage
+.cache/
+pytest_cache/
+
+# === Environment ===
+.env.*
+.venv/
+env/
+venv/
+
