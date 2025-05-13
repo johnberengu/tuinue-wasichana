@@ -3,7 +3,6 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams } from "react-router-dom";
 import paypalLogo from "../../assets/paypal_888870.png";
 import "../../styles/DonationPage.css";
-import paypalLogo from "../../assets/paypal_888870.png";
 
 const DonationPage = () => {
   const [amount, setAmount] = useState("");
