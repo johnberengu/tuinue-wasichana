@@ -1,0 +1,49 @@
+.delete-charities-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.charity-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.charity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.charity-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.charity-type {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 4px;
+}
+
+.delete-button {
+  background-color: #e53935;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #c62828;
+}

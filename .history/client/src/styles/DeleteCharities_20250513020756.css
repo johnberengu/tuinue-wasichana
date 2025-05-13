@@ -1,0 +1,29 @@
+.delete-charities-container {
+  padding: 20px;
+}
+
+.charity-list {
+  list-style: none;
+  padding: 0;
+}
+
+.charity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.delete-button {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-button:hover {
+  background-color: #d9363e;
+}
